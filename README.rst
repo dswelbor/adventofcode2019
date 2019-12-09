@@ -1,10 +1,7 @@
-================
-adventofcode2019
-================
+==================
+Advent of Code2019
+==================
 
-
-.. image:: https://img.shields.io/pypi/v/aoc2019.svg
-        :target: https://pypi.python.org/pypi/aoc2019
 
 .. image:: https://img.shields.io/travis/dswelbor/aoc2019.svg
         :target: https://travis-ci.org/dswelbor/aoc2019
