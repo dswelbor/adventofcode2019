@@ -5,9 +5,6 @@
 import pytest
 
 
-from aoc2019 import aoc2019
-
-
 @pytest.fixture
 def response():
     """Sample pytest fixture.
