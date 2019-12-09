@@ -24,7 +24,6 @@ def test_content(response):
 @pytest.fixture
 def day_one_part_one():
     from day_one import day_one
-    assert 34241 == day_one.calc_fuel_reqs('test.txt')
-    print(day_one.calc_fuel_reqs('test.txt'))
+    assert 34241 == day_one.calc_fuel_reqs('test.txt'), 'Day one part one failed'
 
 
