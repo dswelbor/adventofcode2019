@@ -3,6 +3,7 @@
 """Tests for `aoc2019` package."""
 
 import pytest
+from day_one import day_one_util
 
 
 @pytest.fixture
@@ -21,9 +22,13 @@ def test_content(response):
     # assert 'GitHub' in BeautifulSoup(response.content).title.string
 
 
-@pytest.fixture
-def day_one_part_one():
-    from day_one import day_one
-    assert 34241 == day_one.calc_fuel_reqs('test.txt'), 'Day one part one failed'
+def test_day_one_part_one():
+    """Test case: compare the algorithm with sample data provided for day 1 part 1"""
+    assert 34241 == day_one_util.calc_fuel_reqs('test.txt'), 'Day one part one failed'
 
 
+def test_day_one_part_two():
+    """Test caseL compare the algorithm with sample day for day 1 part 2"""
+
+    assert 2 == day_one_util.calc_module_fuel(14)
+    assert 50346 == day_one_util.calc_module_fuel(100756)
