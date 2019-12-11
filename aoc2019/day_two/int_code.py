@@ -27,17 +27,21 @@ class IntCode:
     def __init__(self, args):
         """Simple ctor"""
         self.list = args
-        self.codes = {1: add, 2: multiply, 99: stop}
+        self.codes = {1: add, 2: multiply, 99: stop}  # dynamic dispatch function calls
         self.index = 0
+        self.isDone = False
 
     def visit(self):
         """Visits a block of 4 int codes and does an operation"""
+        # special case - done
+        if self.isDone:
+            return
+
         code = self.list[self.index]
-        target = self.list[self.index + 3]
-        terms = [self.list[self.list[self.index + 1]], 0]
-        terms[1] = self.list[self.list[self.index + 2]]
         try:
-            # list.insert(target, self.codes[code](self.list[index + 1: index + 3]))
+            target = self.list[self.index + 3]
+            terms = [self.list[self.list[self.index + 1]], 0]
+            terms[1] = self.list[self.list[self.index + 2]]
             self.list[target] = self.codes[code](terms)
         # out of bounds
         except IndexError:
@@ -49,6 +53,7 @@ class IntCode:
             self.visit()
         except Done:
             print('Hit code 99 - done.')
+            self.isDone = True
         except KeyError:
             print('An error has occurred - wrong opp code')
 
@@ -56,7 +61,7 @@ class IntCode:
 
     def visit_all(self):
         """Iterates through all int code blocks"""
-        while self.index < len(self.list):
+        while not self.isDone:
             self.visit_next()
 
 
