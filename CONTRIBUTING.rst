@@ -1,5 +1,3 @@
-.. highlight:: shell
-
 ============
 Contributing
 ============
@@ -45,7 +43,7 @@ articles, and such.
 Submit Feedback
 ~~~~~~~~~~~~~~~
 
-The best way to send feedback is to file an issue at https://github.com/dswelbor/aoc2019/issues.
+The best way to send feedback is to file an issue at https://github.com/dswelbor/advent2019/issues.
 
 If you are proposing a feature:
 
@@ -57,9 +55,9 @@ If you are proposing a feature:
 Get Started!
 ------------
 
-Ready to contribute? Here's how to set up `aoc2019` for local development.
+Ready to contribute? Here's how to set up `advent2019` for local development.
 
-1. Fork the `aoc2019` repo on GitHub.
+1. Fork the `advent2019` repo on GitHub.
 2. Clone your fork locally::
 
     $ git clone git@github.com:your_name_here/aoc2019.git

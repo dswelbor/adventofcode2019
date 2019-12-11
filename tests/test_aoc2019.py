@@ -5,7 +5,8 @@
 import pytest
 from aoc2019.day_one import day_one_util
 from aoc2019.day_two import int_code
-
+from aoc2019.day_three import wire_runner
+from aoc2019.day_three.wire_runner import Empty, End, Wire, WireRunner
 
 @pytest.fixture
 def response():
@@ -68,5 +69,30 @@ def test_day_two_int_code_visit_all():
     assert 2 == test_obj2.list[4]
 
 
+def test_day_three_grid_resize():
+    """Test case: initialize a new grid and test the grid for accuracy after resize"""
+    initial_grid = wire_runner.init_grid(3)
+    expected_grid = [[Empty(), Empty(), Empty()],
+                     [Empty(), Empty(), Empty()],
+                     [Empty(), Empty(), Empty()]]
+    # Test initial default empty values
+    for i in range(len(initial_grid)):
+        for j in range(len(initial_grid)):
+            assert expected_grid[i][j].__str__() == initial_grid[i][j].__str__()
 
-
+    # Test resized grid
+    initial_grid[1][0] = End()
+    initial_grid[1][1] = Wire()
+    initial_grid[1][2] = End()
+    initial_grid[0][2] = End()
+    resized_grid = wire_runner.resize_grid(initial_grid)
+    expected_resized = [[Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), End(), Empty(), Empty()],
+                        [Empty(), Empty(), End(), Wire(), End(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()]]
+    for i in range(len(resized_grid)):
+        for j in range(len(resized_grid)):
+            assert expected_resized[i][j].__str__() == resized_grid[i][j].__str__()
