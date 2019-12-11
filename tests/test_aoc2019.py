@@ -6,7 +6,7 @@ import pytest
 from aoc2019.day_one import day_one_util
 from aoc2019.day_two import int_code
 from aoc2019.day_three import wire_runner
-from aoc2019.day_three.wire_runner import Empty, End, Wire, WireRunner
+from aoc2019.day_three.wire_runner import Empty, End, Wire, WireGrid
 
 @pytest.fixture
 def response():

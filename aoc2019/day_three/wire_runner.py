@@ -24,9 +24,39 @@ def resize_grid(grid):
     return new_grid
 
 
-class WireRunner:
+class WireGrid:
+    """
+    Class to represent a grid with Wires mapped on it. Provides attributes and behaviors
+    to map "wires" onto the grid based a list of "tracing" instructions.
+    """
+    INITIAL_SIZE = 1021  # Constant defining initial grid size
 
-    pass
+    def __init__(self):
+        """Constructor initializes a wire grid entity"""
+        self.grid = init_grid(self.INITIAL_SIZE)
+        self.size = self.INITIAL_SIZE
+        self.center = (self.size / 2, self.size / 2)
+        self.current_pos = {'x': self.center[0], 'y': self.center[1]}
+
+    def trace_wires(self, trace):
+        """
+        Method maps a series of passed "trace" instructions to the grid. Expected
+        instructions are in the form of D123 to go down 123 cells or R03 to go right
+        3 cells.
+        """
+        pass
+
+    def up(self, dist):
+        pass
+
+    def down(self, dist):
+        pass
+
+    def right(self, dist):
+        pass
+
+    def left(self, dist):
+        pass
 
 
 class Empty:
