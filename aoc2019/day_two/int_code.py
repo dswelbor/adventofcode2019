@@ -45,14 +45,18 @@ class IntCode:
             self.list[target] = self.codes[code](terms)
         # out of bounds
         except (IndexError, TypeError):
-            self.list[target] = self.codes[code]()
+            try:
+                self.list[target] = self.codes[code]()
+            except TypeError:
+                # invalid initial values
+                stop()
 
     def visit_next(self):
         """Visits the next block of int codes"""
         try:
             self.visit()
         except Done:
-            print('Hit code 99 - done.')
+            # print('Hit code 99 - done.')
             self.isDone = True
         except KeyError:
             print('An error has occurred - wrong opp code')
@@ -68,3 +72,37 @@ class IntCode:
 class Done(Exception):
     """Simple custom exception"""
     pass
+
+
+def brute_force(instruction_list, target_value):
+    """
+    This method finds binary tuple of values for a specific target and
+    computes the evaluated result
+    """
+    value_one = 0
+    value_two = 0
+    # iterate through possibilities
+    for i in range(target_value):
+        input_clone = instruction_list[:]
+        input_clone[1] = i
+        input_clone[2] = value_two
+        test_run = IntCode(input_clone)
+        test_run.visit_all()
+        # test value at index 0
+        if target_value < test_run.list[0]:
+            value_one = i - 1
+            break
+        if target_value == test_run.list[0]:
+            value_one = i
+            return 100 * value_one + value_two
+
+    for j in range(target_value):
+        input_clone = instruction_list[:]
+        input_clone[1] = value_one
+        input_clone[2] = j
+        test_run = IntCode(input_clone)
+        test_run.visit_all()
+        # test value at index 0
+        if target_value == test_run.list[0]:
+            value_two = j
+            return 100 * value_one + value_two
