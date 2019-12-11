@@ -3,8 +3,8 @@
 """Tests for `aoc2019` package."""
 
 import pytest
-# import day_one_util
 from aoc2019.day_one import day_one_util
+from aoc2019.day_two import int_code
 
 
 @pytest.fixture
@@ -32,5 +32,21 @@ def test_day_one_part_two():
     """Test caseL compare the algorithm with sample day for day 1 part 2"""
     assert 2 == day_one_util.calc_module_fuel(14)
     assert 50346 == day_one_util.calc_module_fuel(100756)
+
+
+def test_day_two_int_code_init():
+    """Test case: Assert IntCode object instantiates correctly"""
+    test_list = [1, 0, 0, 99]
+    test_obj = int_code.IntCode(test_list)
+    assert 4 == len(test_obj.list)
+
+
+def test_day_two_int_code_visit():
+    """Test case: Assert IntCode object appropriately visits an object"""
+    test_list = [1, 0, 0, 0, 99]
+    test_obj = int_code.IntCode(test_list)
+    test_obj.visit()  # Expect [2, 0, 0, 0, 99]
+    print(test_obj.list)
+    assert 2 == test_obj.list[0]
 
 

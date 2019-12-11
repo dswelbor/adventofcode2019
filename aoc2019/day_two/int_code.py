@@ -34,9 +34,11 @@ class IntCode:
         """Visits a block of 4 int codes and does an operation"""
         code = self.list[self.index]
         target = self.list[self.index + 3]
+        terms = [self.list[self.list[self.index + 1]], 0]
+        terms[1] = self.list[self.list[self.index + 2]]
         try:
             # list.insert(target, self.codes[code](self.list[index + 1: index + 3]))
-            self.list[target] = self.codes[code](self.list[self.index + 1: self.index + 3])
+            self.list[target] = self.codes[code](terms)
         # out of bounds
         except IndexError:
             self.list[target] = self.codes[code]()
