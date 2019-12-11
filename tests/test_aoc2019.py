@@ -52,11 +52,21 @@ def test_day_two_int_code_visit():
 
 def test_day_two_int_code_visit_all():
     """Test case: Assert IntCode object appropriately visits all objects"""
+    # test list 1
     test_list = [2, 4, 4, 5, 99, 0]
     test_obj = int_code.IntCode(test_list)
     test_obj.visit_all()  # Expect [2, 4, 4, 5, 99, 9801]
     print(test_obj.list)
     assert 9801 == test_obj.list[5]
+
+    # test list 2
+    test_list2 = [1, 1, 1, 4, 99, 5, 6, 0, 99]
+    test_obj2 = int_code.IntCode(test_list2)
+    test_obj2.visit_all()  # Expect [30, 1, 1, 4, 2, 5, 6, 0, 99]
+    print(test_obj2.list)
+    assert 30 == test_obj2.list[0]
+    assert 2 == test_obj2.list[4]
+
 
 
 

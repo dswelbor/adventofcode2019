@@ -44,7 +44,7 @@ class IntCode:
             terms[1] = self.list[self.list[self.index + 2]]
             self.list[target] = self.codes[code](terms)
         # out of bounds
-        except IndexError:
+        except (IndexError, TypeError):
             self.list[target] = self.codes[code]()
 
     def visit_next(self):
