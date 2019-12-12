@@ -149,3 +149,19 @@ def test_day_three_get_intersections():
     assert tuples == [(14, 3), (11, 5)]
 
 
+def test_day_three_get_min():
+    """
+    Test case: Pass 2 sets of "trace" instructions to WireGrid and verify
+    manhattan distance to intersection closest to origin.
+    """
+    # R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
+    # U98,R91,D20,R16,D67,R40,U7,R15,U6,R7
+    test_list1 = ['R98', 'U47', 'R26', 'D63', 'R33', 'U87', 'L62', 'D20', 'R33', 'U53', 'R51']
+    test_list2 = ['U98', 'R91', 'D20', 'R16', 'D67', 'R40', 'U7', 'R15', 'U6', 'R7']
+    test_wire_grid = WireGrid()
+    test_wire_grid.trace_wires(test_list1)  # trace first input list
+    test_wire_grid.trace_wires(test_list2)  # trace second input list
+
+    # get manhattan dist
+    dist = test_wire_grid.get_min_manhattan_dist()
+    assert 135 == dist

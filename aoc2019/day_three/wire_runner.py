@@ -82,6 +82,12 @@ class WireGrid:
         # Map actions based on cell content
         self.actions = {' ': Wire, '.': Cross}
 
+    def get_min_manhattan_dist(self):
+        """This method returns the manhattan distance from closest intersection from origin"""
+        intersections = get_intersections(self.grid)
+        dist = get_min_dist_origin(self.center, intersections)
+        return dist
+
     def trace_wires(self, trace):
         """
         Method maps a series of passed "trace" instructions to the grid. Expected
