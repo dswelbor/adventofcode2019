@@ -31,12 +31,12 @@ class WireGrid:
     """
     INITIAL_SIZE = 1021  # Constant defining initial grid size
 
-    def __init__(self):
-        """Constructor initializes a wire grid entity"""
+    def __init__(self, size=INITIAL_SIZE):
+        """Initializes a wire grid entity"""
         # 2D list grid - outer list is rows (y), inner list is cols (x)
         # positive is up, east - negative is down, west
-        self.grid = init_grid(self.INITIAL_SIZE)
-        self.size = self.INITIAL_SIZE
+        self.grid = init_grid(size)
+        self.size = size
         self.center = (int(self.size / 2), int(self.size / 2))
         # Dictionary storing current "position"
         self.current_pos = {'x': self.center[0], 'y': self.center[1]}
@@ -69,19 +69,43 @@ class WireGrid:
         self.current_pos['y'] += dist
 
     def down(self, dist):
-        pass
+        """Helper method to trace "down" a passed number of cells from current position"""
+        # iterate down
+        for offset in range(1, dist + 1):
+            current = self.grid[self.current_pos['y'] - offset][self.current_pos['x']]
+            # dynamically dispatch action
+            self.grid[self.current_pos['y'] - offset][self.current_pos['x']] = \
+                self.actions[current.__str__()]()
+        # Update "current" coords
+        self.current_pos['y'] -= dist
 
     def right(self, dist):
-        pass
+        """Helper method to trace "right" a passed number of cells from current position"""
+        # iterate up
+        for offset in range(1, dist + 1):
+            current = self.grid[self.current_pos['y']][self.current_pos['x'] + offset]
+            # dynamically dispatch action
+            self.grid[self.current_pos['y']][self.current_pos['x'] + offset] = \
+                self.actions[current.__str__()]()
+        # Update "current" coords
+        self.current_pos['x'] += dist
 
     def left(self, dist):
-        pass
+        """Helper method to trace "left" a passed number of cells from current position"""
+        # iterate up
+        for offset in range(1, dist + 1):
+            current = self.grid[self.current_pos['y']][self.current_pos['x'] - offset]
+            # dynamically dispatch action
+            self.grid[self.current_pos['y']][self.current_pos['x'] - offset] = \
+                self.actions[current.__str__()]()
+        # Update "current" coords
+        self.current_pos['x'] -= dist
 
 
 class Empty:
     """Empty Cell entity"""
     def __init__(self):
-        """Basic ctor for Empty cell entity"""
+        """Basic initializer for Empty cell entity"""
         self.taken = False
 
     def __str__(self):
@@ -101,7 +125,7 @@ class End:
 class Wire:
     """Wire connection entity"""
     def __init__(self):
-        """Simple ctor for Wire cell entities"""
+        """Simple initializer for Wire cell entities"""
         self.taken = True
 
     def __str__(self):
@@ -112,7 +136,7 @@ class Cross:
     """Wire intersection entity"""
 
     def __init__(self):
-        """Simple ctor for "wires crossed" intersection entities"""
+        """Simple initializer for "wires crossed" intersection entities"""
         self.taken = True
 
     def __str__(self):
