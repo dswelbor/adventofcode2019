@@ -42,6 +42,25 @@ def get_intersections(grid):
     return cross_list
 
 
+def get_min_dist_origin(origin, intersections):
+    """
+    Utility function that calculates the manhattan distance from origin to
+    closest intersection
+    """
+    # initialize minimum to manhattan dist from origin to far corner
+    min_dist = origin[0] * 2 * 2
+    for cross in intersections:
+        # calculate manhattan distance from origin to intersection
+        x_dist = abs(cross[0] - origin[0])
+        y_dist = abs(cross[1] - origin[1])
+        dist = x_dist + y_dist
+        # assign existing or closer minimum
+        min_dist = min(dist, min_dist)
+
+    # return calculated minimum manhattan distance
+    return min_dist
+
+
 class WireGrid:
     """
     Class to represent a grid with Wires mapped on it. Provides attributes and behaviors
