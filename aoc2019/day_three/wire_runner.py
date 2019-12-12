@@ -100,7 +100,14 @@ class WireGrid:
         self.grid[self.center[1]][self.center[0]] = End()
         # iterate through "trace" list
         for opp in trace:
+            #try:
             self.instructions[opp[0]](int(opp[1:]))
+            # grid not large enough
+            #except IndexError:
+            #    self.grid = resize_grid(self.grid)  # enlarge grid
+            #    self.size = len(self.grid)  # memoization - store size
+            #    self.center = (int(self.size / 2), int(self.size / 2)) # recenter grid
+            #    self.instructions[opp[0]](int(opp[1:]))  # try again with "trace" step
 
     def up(self, dist):
         """Helper method to trace "up" a passed number of cells from current position"""
