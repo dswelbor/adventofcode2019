@@ -33,10 +33,17 @@ class WireGrid:
 
     def __init__(self):
         """Constructor initializes a wire grid entity"""
+        # 2D list grid - outer list is rows (y), inner list is cols (x)
+        # positive is up, east - negative is down, west
         self.grid = init_grid(self.INITIAL_SIZE)
         self.size = self.INITIAL_SIZE
-        self.center = (self.size / 2, self.size / 2)
+        self.center = (int(self.size / 2), int(self.size / 2))
+        # Dictionary storing current "position"
         self.current_pos = {'x': self.center[0], 'y': self.center[1]}
+        # Map instruction codes to helper methods
+        self.instructions = {'U': self.up, 'D': self.down, 'R': self.right, 'L': self.left}
+        # Map actions based on cell content
+        self.actions = {' ': Wire, '.': Cross}
 
     def trace_wires(self, trace):
         """
@@ -44,10 +51,22 @@ class WireGrid:
         instructions are in the form of D123 to go down 123 cells or R03 to go right
         3 cells.
         """
-        pass
+        # reset "current" position at center
+        self.current_pos = {'x': self.center[0], 'y': self.center[1]}
+        # iterate through "trace" list
+        for opp in trace:
+            self.instructions[opp[0]](opp[1:])
 
     def up(self, dist):
-        pass
+        """Helper method to trace "up" a passed number of cells from current position"""
+        # iterate up
+        for offset in range(1, dist + 1):
+            current = self.grid[self.current_pos['y'] + offset][self.current_pos['x']]
+            # dynamically dispatch action
+            self.grid[self.current_pos['y'] + offset][self.current_pos['x']] = \
+                self.actions[current.__str__()]()
+        # Update "current" coords
+        self.current_pos['y'] += dist
 
     def down(self, dist):
         pass
@@ -65,11 +84,6 @@ class Empty:
         """Basic ctor for Empty cell entity"""
         self.taken = False
 
-    """Simple concretion of empty cells"""
-    def is_taken(self):
-        """Simple utility method that returns false - Cell is not taken"""
-        return self.taken
-
     def __str__(self):
         """Basic __str__ implementation"""
         return ' '
@@ -79,11 +93,6 @@ class End:
     """Wire End entity"""
     def __init__(self):
         self.taken = True
-
-    """Simple concretion of a wire endpoint"""
-    def is_taken(self):
-        """Simple utility method that returns true - cell is taken"""
-        return self.taken
 
     def __str__(self):
         return 'o'
@@ -95,9 +104,18 @@ class Wire:
         """Simple ctor for Wire cell entities"""
         self.taken = True
 
-    def is_taken(self):
-        """Simple utility method that returns true - cell is taken"""
-        return self.taken
+    def __str__(self):
+       return '.'
+
+
+class Cross:
+    """Wire intersection entity"""
+
+    def __init__(self):
+        """Simple ctor for "wires crossed" intersection entities"""
+        self.taken = True
 
     def __str__(self):
-        return '.'
+        return 'x'
+
+
