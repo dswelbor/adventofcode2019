@@ -1,3 +1,6 @@
+"""This module provides the logic for day 3 aoc2019 solution with utility functions and classes"""
+
+
 def init_grid(size):
     """
     Simple utility function that initializes a size x size grid using lists
@@ -24,6 +27,21 @@ def resize_grid(grid):
     return new_grid
 
 
+def get_intersections(grid):
+    """
+    This utility function finds all the intersections in a grid. It returns a list
+    of (x, y) tuples
+    """
+    cross_list = []  # initialize empty list
+    # Iterate through all cells in the grid - find intersections
+    for y in range(len(grid)):
+        for x in range(len(grid[0])):
+            # intersection found
+            if isinstance(grid[y][x], Cross):
+                cross_list.append((x, y))
+    return cross_list
+
+
 class WireGrid:
     """
     Class to represent a grid with Wires mapped on it. Provides attributes and behaviors
@@ -34,7 +52,7 @@ class WireGrid:
     def __init__(self, size=INITIAL_SIZE):
         """Initializes a wire grid entity"""
         # 2D list grid - outer list is rows (y), inner list is cols (x)
-        # positive is up, east - negative is down, west
+        # positive is down, east - negative is up, west
         self.grid = init_grid(size)
         self.size = size
         self.center = (int(self.size / 2), int(self.size / 2))
@@ -53,24 +71,15 @@ class WireGrid:
         """
         # reset "current" position at center
         self.current_pos = {'x': self.center[0], 'y': self.center[1]}
+        # initialize trace point
+        self.grid[self.center[1]][self.center[0]] = End()
         # iterate through "trace" list
         for opp in trace:
-            self.instructions[opp[0]](opp[1:])
+            self.instructions[opp[0]](int(opp[1:]))
 
     def up(self, dist):
         """Helper method to trace "up" a passed number of cells from current position"""
         # iterate up
-        for offset in range(1, dist + 1):
-            current = self.grid[self.current_pos['y'] + offset][self.current_pos['x']]
-            # dynamically dispatch action
-            self.grid[self.current_pos['y'] + offset][self.current_pos['x']] = \
-                self.actions[current.__str__()]()
-        # Update "current" coords
-        self.current_pos['y'] += dist
-
-    def down(self, dist):
-        """Helper method to trace "down" a passed number of cells from current position"""
-        # iterate down
         for offset in range(1, dist + 1):
             current = self.grid[self.current_pos['y'] - offset][self.current_pos['x']]
             # dynamically dispatch action
@@ -78,6 +87,17 @@ class WireGrid:
                 self.actions[current.__str__()]()
         # Update "current" coords
         self.current_pos['y'] -= dist
+
+    def down(self, dist):
+        """Helper method to trace "down" a passed number of cells from current position"""
+        # iterate down
+        for offset in range(1, dist + 1):
+            current = self.grid[self.current_pos['y'] + offset][self.current_pos['x']]
+            # dynamically dispatch action
+            self.grid[self.current_pos['y'] + offset][self.current_pos['x']] = \
+                self.actions[current.__str__()]()
+        # Update "current" coords
+        self.current_pos['y'] += dist
 
     def right(self, dist):
         """Helper method to trace "right" a passed number of cells from current position"""

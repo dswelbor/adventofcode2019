@@ -96,3 +96,56 @@ def test_day_three_grid_resize():
     for i in range(len(resized_grid)):
         for j in range(len(resized_grid)):
             assert expected_resized[i][j].__str__() == resized_grid[i][j].__str__()
+
+
+def test_day_three_trace_wires():
+    """Test case: "trace" a series of instructions and assert grid matches expected output"""
+    test_list = ['R8', 'U5', 'L5', 'D3']
+    test_wire_grid = WireGrid(size=17)
+    test_wire_grid.trace_wires(test_list)
+    expected_test_grid = [[Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire(), Wire(), Wire(), Wire(), Wire(), Wire()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire(), Empty(), Empty(), Empty(), Empty(), Wire()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire(), Empty(), Empty(), Empty(), Empty(), Wire()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire(), Empty(), Empty(), Empty(), Empty(), Wire()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire()],
+
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), End(), Wire(), Wire(), Wire(), Wire(), Wire(), Wire(), Wire(), Wire()],
+
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],]
+
+    for i in range(17):
+        for j in range(17):
+            assert expected_test_grid[i][j].__str__() == test_wire_grid.grid[i][j].__str__()
+
+
+def test_day_three_get_intersections():
+    """
+    Test case: This test "traces" a list of 2 sets of instructions, then uses
+    get_intersections method to return a list of intersection tuples. Asserts list
+    of tuples matches expected output.
+    """
+    test_list1 = ['R8', 'U5', 'L5', 'D3']
+    test_list2 = ['U7', 'R6', 'D4', 'L4']
+    # instantiate Wire grade and trace instructions
+    test_wire_grid = WireGrid(size=17)
+    test_wire_grid.trace_wires(test_list1)  # trace first input list
+    test_wire_grid.trace_wires(test_list2)  # trace second input list
+
+    # get intersection list
+    tuples = wire_runner.get_intersections(test_wire_grid.grid)
+    # (12, 6), (15, 4)
+    assert tuples == [(14, 3), (11, 5)]
+
+

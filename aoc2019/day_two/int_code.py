@@ -1,3 +1,6 @@
+"""
+This module decouples the logic for the day 2 aoc2019 into utility functions and entities
+"""
 
 def add(args):
     """Function adds the passed numbers together"""
