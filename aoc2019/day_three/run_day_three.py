@@ -1,6 +1,4 @@
-from aoc2019.day_three.wire_runner import WireGrid, WireTable
-# from wire_runner import WireGrid
-# from wire_runner import WireGrid
+from wire_runner import WireTable, WireGrid
 
 
 """This module provides the run functionality for day three aoc2019 solution"""
