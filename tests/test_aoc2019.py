@@ -187,7 +187,36 @@ def test_day_three_get_min_wire_table():
     test_list4 = ['U62', 'R66', 'U55', 'R34', 'D71', 'R55', 'D58', 'R83']
     test_wire_table2 = WireTable()
     test_wire_table2.trace_wires(test_list3)  # trace third input list
-    test_wire_table2.trace_wires(test_list4)  # trace fourth input list"""
+    test_wire_table2.trace_wires(test_list4)  # trace fourth input list
     # get manhattan dist
     dist = test_wire_table2.get_min_manhattan_dist()
     assert 159 == dist
+
+def test_day_three_find_min_steps():
+    """
+    Test case: Pass 2 sets of "trace" instructions to WireTable and verify manhattan
+    distance to intersection closest to origin.
+    """
+    test_list1 = ['R98', 'U47', 'R26', 'D63', 'R33', 'U87', 'L62', 'D20', 'R33', 'U53', 'R51']
+    test_list2 = ['U98', 'R91', 'D20', 'R16', 'D67', 'R40', 'U7', 'R15', 'U6', 'R7']
+    # test_list1 = ['R8', 'U5', 'L5', 'D3']
+    # test_list2 = ['U7', 'R6', 'D4', 'L4']
+    test_wire_table = WireTable()
+    test_wire_table.trace_wires(test_list1)  # trace first input list
+    test_wire_table.trace_wires(test_list2)  # trace second input list
+    # get manhattan dist
+    dist = test_wire_table.get_min_manhattan_dist()
+    steps = test_wire_table.find_min_steps()
+    assert 410 == steps
+
+    # R75,D30,R83,U83,L12,D49,R71,U7,L72
+    # U62,R66,U55,R34,D71,R55,D58,R83
+    test_list3 = ['R75', 'D30', 'R83', 'U83', 'L12', 'D49', 'R71', 'U7', 'L72']
+    test_list4 = ['U62', 'R66', 'U55', 'R34', 'D71', 'R55', 'D58', 'R83']
+    test_wire_table2 = WireTable()
+    test_wire_table2.trace_wires(test_list3)  # trace third input list
+    test_wire_table2.trace_wires(test_list4)  # trace fourth input list
+    # get manhattan dist
+    dist = test_wire_table2.get_min_manhattan_dist()
+    steps = test_wire_table2.find_min_steps()
+    assert 610 == steps

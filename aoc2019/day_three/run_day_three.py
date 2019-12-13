@@ -31,6 +31,12 @@ print('Part One - Manhattan distance of closest intersection to origin:')
 print('calculating...')
 print(man_dist)
 
+# Calculate minimum number of combined steps to an intersection
+man_step_dist = wire_table.find_min_steps()
+print('Part Two - Combined minimum number of steps to an intersection:')
+print('calculating...')
+print(man_step_dist)
+
 
 
 
