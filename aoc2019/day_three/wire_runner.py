@@ -223,10 +223,9 @@ class WireTable:
         self.current_x = 0
         self.current_y = 0
         self.current_steps = 0  # counter for steps
-        self.min_steps = sys.maxsize # initialize minimum number of steps to max
         self.current_trace = None  # dictionary of current trace
         self.intersections = None  # list of intersection tuples
-        self.intersections_steps = None  # list of dictionaries of steps per intersection
+        self.list_keyed_intersect_steps = None  # list of dictionaries of steps per intersection
         self.current_intersect_steps = None  # dictionary of current steps
         # Map instruction codes to helper methods
         self.instructions = {'U': self.up, 'D': self.down, 'R': self.right, 'L': self.left}
@@ -278,8 +277,7 @@ class WireTable:
                 pass  # do nothing - no matching pairs at this x value
 
     def find_min_steps(self):
-        self.min_steps = sys.maxsize
-        self.intersections_steps = []
+        self.list_keyed_intersect_steps = []
         for trace in self.trace_list:
             self.current_intersect_steps = {}
             # reset "current" position at center
@@ -291,12 +289,12 @@ class WireTable:
             for opp in trace:
                 self.count_steps_instr[opp[0]](int(opp[1:]))
             # Append
-            self.intersections_steps.append(self.current_intersect_steps)
+            self.list_keyed_intersect_steps.append(self.current_intersect_steps)
 
         # calculate sum of steps to a given intersection
         min_steps = sys.maxsize
         for cross in self.intersections:
-            steps = self.intersections_steps[0][cross] + self.intersections_steps[1][cross]
+            steps = self.list_keyed_intersect_steps[0][cross] + self.list_keyed_intersect_steps[1][cross]
             min_steps = min(steps, min_steps)
         # minimum number of steps to intersection calculated
         return min_steps
@@ -343,7 +341,6 @@ class WireTable:
             self.current_steps += 1  # increment step counter
             # currently at
             if (self.current_x, self.current_y + offset) in self.intersections:
-                self.min_steps = min(self.min_steps, self.current_steps)
                 self.current_intersect_steps[(self.current_x, self.current_y + offset)] = self.current_steps
 
         # Update "current" coords
@@ -359,7 +356,6 @@ class WireTable:
             self.current_steps += 1  # increment step counter
             # currently at
             if (self.current_x, self.current_y - offset) in self.intersections:
-                self.min_steps = min(self.min_steps, self.current_steps)
                 self.current_intersect_steps[(self.current_x, self.current_y - offset)] = self.current_steps
         # Update "current" coords
         self.current_y -= dist
@@ -369,12 +365,11 @@ class WireTable:
         Helper method to trace "right" a passed number of cells from current position
         and count steps to and intersection.
         """
-        # iterate up
+        # iterate right
         for offset in range(1, dist + 1):
             self.current_steps += 1  # increment step counter
             # currently at
             if (self.current_x + offset, self.current_y) in self.intersections:
-                self.min_steps = min(self.min_steps, self.current_steps)
                 self.current_intersect_steps[(self.current_x + offset, self.current_y)] = self.current_steps
         # Update "current" coords
         self.current_x += dist
@@ -384,12 +379,11 @@ class WireTable:
         Helper method to trace "left" a passed number of cells from current position
         and count steps to and intersection.
         """
-        # iterate up
+        # iterate left
         for offset in range(1, dist + 1):
             self.current_steps += 1  # increment step counter
             # currently at
             if (self.current_x - offset, self.current_y) in self.intersections:
-                self.min_steps = min(self.min_steps, self.current_steps)
                 self.current_intersect_steps[(self.current_x - offset, self.current_y)] = self.current_steps
         # Update "current" coords
         self.current_x -= dist
