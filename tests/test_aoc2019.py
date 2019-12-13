@@ -5,7 +5,8 @@
 import pytest
 from aoc2019.day_one import day_one_util
 from aoc2019.day_two import int_code
-
+from aoc2019.day_three import wire_runner
+from aoc2019.day_three.wire_runner import Empty, End, Wire, WireGrid, WireTable
 
 @pytest.fixture
 def response():
@@ -68,5 +69,154 @@ def test_day_two_int_code_visit_all():
     assert 2 == test_obj2.list[4]
 
 
+def test_day_three_grid_resize():
+    """Test case: initialize a new grid and test the grid for accuracy after resize"""
+    initial_grid = wire_runner.init_grid(3)
+    expected_grid = [[Empty(), Empty(), Empty()],
+                     [Empty(), Empty(), Empty()],
+                     [Empty(), Empty(), Empty()]]
+    # Test initial default empty values
+    for i in range(len(initial_grid)):
+        for j in range(len(initial_grid)):
+            assert expected_grid[i][j].__str__() == initial_grid[i][j].__str__()
+
+    # Test resized grid
+    initial_grid[1][0] = End()
+    initial_grid[1][1] = Wire()
+    initial_grid[1][2] = End()
+    initial_grid[0][2] = End()
+    resized_grid = wire_runner.resize_grid(initial_grid)
+    expected_resized = [[Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), End(), Empty(), Empty()],
+                        [Empty(), Empty(), End(), Wire(), End(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                        [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()]]
+    for i in range(len(resized_grid)):
+        for j in range(len(resized_grid)):
+            assert expected_resized[i][j].__str__() == resized_grid[i][j].__str__()
 
 
+def test_day_three_trace_wires():
+    """Test case: "trace" a series of instructions and assert grid matches expected output"""
+    test_list = ['R8', 'U5', 'L5', 'D3']
+    test_wire_grid = WireGrid(size=17)
+    test_wire_grid.trace_wires(test_list)
+    expected_test_grid = [[Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire(), Wire(), Wire(), Wire(), Wire(), Wire()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire(), Empty(), Empty(), Empty(), Empty(), Wire()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire(), Empty(), Empty(), Empty(), Empty(), Wire()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire(), Empty(), Empty(), Empty(), Empty(), Wire()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Wire()],
+
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), End(), Wire(), Wire(), Wire(), Wire(), Wire(), Wire(), Wire(), Wire()],
+
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],
+                          [Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty(), Empty()],]
+
+    for i in range(17):
+        for j in range(17):
+            assert expected_test_grid[i][j].__str__() == test_wire_grid.grid[i][j].__str__()
+
+
+def test_day_three_get_intersections():
+    """
+    Test case: This test "traces" a list of 2 sets of instructions, then uses
+    get_intersections method to return a list of intersection tuples. Asserts list
+    of tuples matches expected output.
+    """
+    test_list1 = ['R8', 'U5', 'L5', 'D3']
+    test_list2 = ['U7', 'R6', 'D4', 'L4']
+    # instantiate Wire grade and trace instructions
+    test_wire_grid = WireGrid(size=17)
+    test_wire_grid.trace_wires(test_list1)  # trace first input list
+    test_wire_grid.trace_wires(test_list2)  # trace second input list
+
+    # get intersection list
+    tuples = wire_runner.get_intersections(test_wire_grid.grid)
+    # (12, 6), (15, 4)
+    assert tuples == [(14, 3), (11, 5)]
+
+
+def test_day_three_get_min():
+    """
+    Test case: Pass 2 sets of "trace" instructions to WireGrid and verify
+    manhattan distance to intersection closest to origin.
+    """
+    # R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
+    # U98,R91,D20,R16,D67,R40,U7,R15,U6,R7
+    test_list1 = ['R98', 'U47', 'R26', 'D63', 'R33', 'U87', 'L62', 'D20', 'R33', 'U53', 'R51']
+    test_list2 = ['U98', 'R91', 'D20', 'R16', 'D67', 'R40', 'U7', 'R15', 'U6', 'R7']
+    test_wire_grid = WireGrid()
+    test_wire_grid.trace_wires(test_list1)  # trace first input list
+    test_wire_grid.trace_wires(test_list2)  # trace second input list
+
+    # get manhattan dist
+    dist = test_wire_grid.get_min_manhattan_dist()
+    assert 135 == dist
+
+
+def test_day_three_get_min_wire_table():
+    """
+    Test case: Pass 2 sets of "trace" instructions to WireTable and verify manhattan
+    distance to intersection closest to origin.
+    """
+    test_list1 = ['R98', 'U47', 'R26', 'D63', 'R33', 'U87', 'L62', 'D20', 'R33', 'U53', 'R51']
+    test_list2 = ['U98', 'R91', 'D20', 'R16', 'D67', 'R40', 'U7', 'R15', 'U6', 'R7']
+    test_wire_table = WireTable()
+    test_wire_table.trace_wires(test_list1)  # trace first input list
+    test_wire_table.trace_wires(test_list2)  # trace second input list
+    # get manhattan dist
+    dist = test_wire_table.get_min_manhattan_dist()
+    assert 135 == dist
+
+    # R75,D30,R83,U83,L12,D49,R71,U7,L72
+    # U62,R66,U55,R34,D71,R55,D58,R83
+    test_list3 = ['R75', 'D30', 'R83', 'U83', 'L12', 'D49', 'R71', 'U7', 'L72']
+    test_list4 = ['U62', 'R66', 'U55', 'R34', 'D71', 'R55', 'D58', 'R83']
+    test_wire_table2 = WireTable()
+    test_wire_table2.trace_wires(test_list3)  # trace third input list
+    test_wire_table2.trace_wires(test_list4)  # trace fourth input list
+    # get manhattan dist
+    dist = test_wire_table2.get_min_manhattan_dist()
+    assert 159 == dist
+
+def test_day_three_find_min_steps():
+    """
+    Test case: Pass 2 sets of "trace" instructions to WireTable and verify manhattan
+    distance to intersection closest to origin.
+    """
+    test_list1 = ['R98', 'U47', 'R26', 'D63', 'R33', 'U87', 'L62', 'D20', 'R33', 'U53', 'R51']
+    test_list2 = ['U98', 'R91', 'D20', 'R16', 'D67', 'R40', 'U7', 'R15', 'U6', 'R7']
+    # test_list1 = ['R8', 'U5', 'L5', 'D3']
+    # test_list2 = ['U7', 'R6', 'D4', 'L4']
+    test_wire_table = WireTable()
+    test_wire_table.trace_wires(test_list1)  # trace first input list
+    test_wire_table.trace_wires(test_list2)  # trace second input list
+    # get manhattan dist
+    dist = test_wire_table.get_min_manhattan_dist()
+    steps = test_wire_table.find_min_steps()
+    assert 410 == steps
+
+    # R75,D30,R83,U83,L12,D49,R71,U7,L72
+    # U62,R66,U55,R34,D71,R55,D58,R83
+    test_list3 = ['R75', 'D30', 'R83', 'U83', 'L12', 'D49', 'R71', 'U7', 'L72']
+    test_list4 = ['U62', 'R66', 'U55', 'R34', 'D71', 'R55', 'D58', 'R83']
+    test_wire_table2 = WireTable()
+    test_wire_table2.trace_wires(test_list3)  # trace third input list
+    test_wire_table2.trace_wires(test_list4)  # trace fourth input list
+    # get manhattan dist
+    dist = test_wire_table2.get_min_manhattan_dist()
+    steps = test_wire_table2.find_min_steps()
+    assert 610 == steps

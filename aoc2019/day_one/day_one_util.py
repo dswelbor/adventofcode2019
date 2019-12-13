@@ -1,5 +1,7 @@
 import math
 
+"""This module provides the utility functions for the day 1 aoc2019 solution"""
+
 
 def calc_fuel_reqs(filename):
     """This function opens a file and sums the fuel requirements from the file"""

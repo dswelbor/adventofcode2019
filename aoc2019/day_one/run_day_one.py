@@ -1,5 +1,6 @@
 # import day_one
-import day_one_util
+#import day_one_util
+from aoc2019.day_one import day_one_util
 
 # part one
 print('Part One: Expected fuel requirements: ')
