@@ -1,3 +1,6 @@
+import sys
+from _collections import defaultdict
+
 """This module provides the logic for day 3 aoc2019 solution with utility functions and classes"""
 
 
@@ -48,7 +51,7 @@ def get_min_dist_origin(origin, intersections):
     closest intersection
     """
     # initialize minimum to manhattan dist from origin to far corner
-    min_dist = origin[0] * 2 * 2
+    min_dist = sys.maxsize
     for cross in intersections:
         # calculate manhattan distance from origin to intersection
         x_dist = abs(cross[0] - origin[0])
@@ -64,7 +67,8 @@ def get_min_dist_origin(origin, intersections):
 class WireGrid:
     """
     Class to represent a grid with Wires mapped on it. Provides attributes and behaviors
-    to map "wires" onto the grid based a list of "tracing" instructions.
+    to map "wires" onto the grid based a list of "tracing" instructions. Works when grid is small. Becomes
+    unmanageable with large grid sizes.
     """
     INITIAL_SIZE = 1021  # Constant defining initial grid size
 
@@ -113,10 +117,13 @@ class WireGrid:
         """Helper method to trace "up" a passed number of cells from current position"""
         # iterate up
         for offset in range(1, dist + 1):
-            current = self.grid[self.current_pos['y'] - offset][self.current_pos['x']]
-            # dynamically dispatch action
-            self.grid[self.current_pos['y'] - offset][self.current_pos['x']] = \
-                self.actions[current.__str__()]()
+            try:
+                current = self.grid[self.current_pos['y'] - offset][self.current_pos['x']]
+                # dynamically dispatch action
+                self.grid[self.current_pos['y'] - offset][self.current_pos['x']] = \
+                    self.actions[current.__str__()]()
+            except IndexError:
+                pass  # do nothing
         # Update "current" coords
         self.current_pos['y'] -= dist
 
@@ -124,10 +131,13 @@ class WireGrid:
         """Helper method to trace "down" a passed number of cells from current position"""
         # iterate down
         for offset in range(1, dist + 1):
-            current = self.grid[self.current_pos['y'] + offset][self.current_pos['x']]
-            # dynamically dispatch action
-            self.grid[self.current_pos['y'] + offset][self.current_pos['x']] = \
-                self.actions[current.__str__()]()
+            try:
+                current = self.grid[self.current_pos['y'] + offset][self.current_pos['x']]
+                # dynamically dispatch action
+                self.grid[self.current_pos['y'] + offset][self.current_pos['x']] = \
+                    self.actions[current.__str__()]()
+            except IndexError:
+                pass  # do nothing
         # Update "current" coords
         self.current_pos['y'] += dist
 
@@ -135,10 +145,13 @@ class WireGrid:
         """Helper method to trace "right" a passed number of cells from current position"""
         # iterate up
         for offset in range(1, dist + 1):
-            current = self.grid[self.current_pos['y']][self.current_pos['x'] + offset]
-            # dynamically dispatch action
-            self.grid[self.current_pos['y']][self.current_pos['x'] + offset] = \
-                self.actions[current.__str__()]()
+            try:
+                current = self.grid[self.current_pos['y']][self.current_pos['x'] + offset]
+                # dynamically dispatch action
+                self.grid[self.current_pos['y']][self.current_pos['x'] + offset] = \
+                    self.actions[current.__str__()]()
+            except IndexError:
+                pass  # do nothing
         # Update "current" coords
         self.current_pos['x'] += dist
 
@@ -146,10 +159,13 @@ class WireGrid:
         """Helper method to trace "left" a passed number of cells from current position"""
         # iterate up
         for offset in range(1, dist + 1):
-            current = self.grid[self.current_pos['y']][self.current_pos['x'] - offset]
-            # dynamically dispatch action
-            self.grid[self.current_pos['y']][self.current_pos['x'] - offset] = \
-                self.actions[current.__str__()]()
+            try:
+                current = self.grid[self.current_pos['y']][self.current_pos['x'] - offset]
+                # dynamically dispatch action
+                self.grid[self.current_pos['y']][self.current_pos['x'] - offset] = \
+                    self.actions[current.__str__()]()
+            except IndexError:
+                pass  # do nothing
         # Update "current" coords
         self.current_pos['x'] -= dist
 
@@ -195,3 +211,91 @@ class Cross:
         return 'x'
 
 
+class WireTable:
+    """
+    Class represents wire "traces" as dictionaries with x coordinate keys and y
+     coordinates appended to keyed lists
+    """
+    def __init__(self):
+        self.traces = []  # list of dictionaries with wire "traces"
+        # initialize grid cursor position at origin
+        self.current_x = 0
+        self.current_y = 0
+        self.current_trace = None  # dictionary of current trace
+        self.intersections = None  # list of intersection tuples
+        # Map instruction codes to helper methods
+        self.instructions = {'U': self.up, 'D': self.down, 'R': self.right, 'L': self.left}
+
+    def trace_wires(self, trace):
+        """
+        Method maps a series of passed "trace" instructions to the trace dictionaries. Expected
+        instructions are in the form of D123 to go down 123 cells or R03 to go right
+        3 cells.
+        """
+        # reset "current" position at center
+        self.current_x = 0
+        self.current_y = 0
+        # initialize trace dictionary
+        self.current_trace = defaultdict(list)
+        # iterate through "trace" list
+        for opp in trace:
+            self.instructions[opp[0]](int(opp[1:]))
+
+        # add current_trace to list of traces
+        self.traces.append(self.current_trace)
+        self.current_trace = None
+
+    def get_min_manhattan_dist(self):
+        """This method returns the manhattan distance from closest intersection from origin"""
+        # generate intersections
+        self.find_intersections()
+        # get manhattan distance to closest
+        dist = get_min_dist_origin((0, 0), self.intersections)
+        return dist
+
+    def up(self, dist):
+        """Helper method to trace "up" a passed number of cells from current position"""
+        # iterate up
+        for offset in range(1, dist + 1):
+            self.current_trace[self.current_x].append(self.current_y + offset)
+        # Update "current" coords
+        self.current_y += dist
+
+    def down(self, dist):
+        """Helper method to trace "down" a passed number of cells from current position"""
+        # iterate up
+        for offset in range(1, dist + 1):
+            self.current_trace[self.current_x].append(self.current_y - offset)
+        # Update "current" coords
+        self.current_y -= dist
+
+    def right(self, dist):
+        """Helper method to trace "right" a passed number of cells from current position"""
+        # iterate up
+        for offset in range(1, dist + 1):
+            self.current_trace[self.current_x + offset].append(self.current_y)
+        # Update "current" coords
+        self.current_x += dist
+
+    def left(self, dist):
+        """Helper method to trace "left" a passed number of cells from current position"""
+        # iterate up
+        for offset in range(1, dist + 1):
+            self.current_trace[self.current_x - offset].append(self.current_y)
+        # Update "current" coords
+        self.current_x -= dist
+
+    def find_intersections(self):
+        """Helper method that iteratively saves list of intersections for both traces"""
+        self.intersections = []
+        # iterate through
+        for x_trace1 in self.traces[0]:
+            try:
+                # iterate through y values
+                for y_trace1 in self.traces[0][x_trace1]:
+                    # see if coord x, y pair is present in both traces
+                    if x_trace1 != 0 and y_trace1 in self.traces[1][x_trace1]:
+                        self.intersections.append((x_trace1, y_trace1))
+                pass
+            except KeyError:
+                pass  # do nothing - no matching pairs at this x value

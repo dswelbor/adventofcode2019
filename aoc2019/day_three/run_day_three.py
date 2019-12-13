@@ -1,5 +1,5 @@
-# from aoc2019.day_three.wire_runner import WireGrid
-from wire_runner import WireGrid
+from aoc2019.day_three.wire_runner import WireGrid, WireTable
+# from wire_runner import WireGrid
 # from wire_runner import WireGrid
 
 
@@ -12,22 +12,25 @@ line_two = input_file.readline()
 
 # Part 1
 # Initialize grid
-wire_grid = WireGrid(8081)
+# wire_grid = WireGrid(2041)
+# initialize WireTable
+wire_table = WireTable()
 
 
 # Trace input instructions
 first_trace = line_one.split(',')  # First list of trace instructions
 second_trace = line_two.split(',')  # second list of trace instructions
 
-print('Part One - Manhattan distance of closest intersection to origin:')
-print('calculating...')
-wire_grid.trace_wires(first_trace)
+print('Trace inputs...')
+wire_table.trace_wires(first_trace)
 print('first trace complete')
-wire_grid.trace_wires(second_trace)
+wire_table.trace_wires(second_trace)
 print('second trace complete')
 
 # Calculate manhattan distance of closest intersection
-man_dist = wire_grid.get_min_manhattan_dist()
+man_dist = wire_table.get_min_manhattan_dist()
+print('Part One - Manhattan distance of closest intersection to origin:')
+print('calculating...')
 print(man_dist)
 
 
