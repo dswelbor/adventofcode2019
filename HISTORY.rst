@@ -18,3 +18,13 @@ History
 ------------------
 
 * Day Two advent solution.
+
+0.1.3 (2019-12-12)
+------------------
+
+* Day Three advent solution.
+
+0.1.3 (2019-12-14)
+------------------
+
+* Day Four advent solution.

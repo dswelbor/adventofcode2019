@@ -40,6 +40,16 @@ Features
 * Day Two solution
     using dynamic dispatch to replace conditionals with polymorphism and apply short-circuited brute force logic
 
+* Day Three solution
+    using dynamic dispatch to increment a "current position" and generate a collection of "traced" (x, y) tuples.
+    It generates a collection of intersection coordinate tuples and returns about the distance from origin to
+    "closest" intersection.
+
+* Day Four solution
+    using validation to iteratively generate a list of "valid" permutations, refine this
+    list of permutations based on additional criteria, and return a count of valid permutation
+    candidates for both sets of requirements.
+
 
 Credits
 -------
