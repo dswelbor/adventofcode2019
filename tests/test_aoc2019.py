@@ -4,7 +4,7 @@ from aoc2019.day_one import day_one_util
 from aoc2019.day_two import int_code
 from aoc2019.day_three import wire_runner
 from aoc2019.day_three.wire_runner import Empty, End, Wire, WireGrid, WireTable
-from aoc2019.day_four.container_cracker import valid
+from aoc2019.day_four.container_cracker import valid, valid_refined
 
 """Tests for `aoc2019` package."""
 
@@ -236,4 +236,19 @@ def test_day_four_is_valid():
     assert not valid(test_two)
     assert not valid(test_three)
     assert valid(test_four)
+
+
+def test_day_four_is_valid_refined():
+    """
+    Test case: Assert that the valid_refined function appropriately returns
+    true for valid input.
+    """
+    test_one = 112233
+    test_two = 123444
+    test_three = 111122
+    test_four = 127889
+    assert valid_refined(test_one)
+    assert not valid_refined(test_two)
+    assert valid_refined(test_three)
+    assert valid_refined(test_four)
 

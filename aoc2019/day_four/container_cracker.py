@@ -30,13 +30,22 @@ def valid(candidate):
 
 
 def valid_refined(candidate):
-    """Utility function that determines if a passed permutation is valid"""
+    """
+    Utility function that determines if a passed permutation is valid.
+    Specifically, there exists one and only one "pair" of matching digits.
+    """
     permutation = str(candidate)
-    for char in permutation:
-        if permutation.count(char) > 2:
+    for char in permutation[::-1]:
+        if 2 == permutation.count(char):
+            return True
+        # "largest" numerical group has only 2 matching adjacent elements
+        # if 1 < permutation.count(char) <= 2:
+            return True
+        # "largest" numerical group has more than 2 matching adjacent elements
+        # if 1 < permutation.count(char) > 2:
             return False
-    # didn't find fail condition
-    return True
+    # didn't find a true condition
+    return False
 
 
 class CrackIt:
