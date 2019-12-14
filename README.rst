@@ -6,18 +6,10 @@ Advent of Code2019
 .. image:: https://img.shields.io/travis/dswelbor/advent2019.svg
         :target: https://travis-ci.org/dswelbor/advent2019
 
-.. image:: https://readthedocs.org/projects/aoc2019/badge/?version=latest
-        :target: https://aoc2019.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
-
-
-
-Solutions to AdventofCode2019 challenges
-
+Solutions to AdventofCode2019 challenges implemented in python.
+Advent of Code: http://adventofcode.com/
 
 * Free software: MIT license
-* Documentation: https://aoc2019.readthedocs.io.
 
 Instructions
 ------------
