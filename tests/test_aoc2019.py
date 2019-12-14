@@ -231,7 +231,9 @@ def test_day_four_is_valid():
     test_one = 111111
     test_two = 223450
     test_three = 123789
+    test_four = 128888
     assert valid(test_one)
     assert not valid(test_two)
     assert not valid(test_three)
+    assert valid(test_four)
 

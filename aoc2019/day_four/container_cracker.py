@@ -20,6 +20,7 @@ def valid(input):
             # one adjacent match pair
             if digit == prev:
                 return True
+            prev = digit
         # Not matching adjacent digits - invalid
         return False
 
