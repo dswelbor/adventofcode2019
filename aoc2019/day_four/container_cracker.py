@@ -1,4 +1,5 @@
 def valid(candidate):
+    """Utility function that returns whether a pass permutation is valid"""
     permutation = str(candidate)
     # six digit number
     if not isinstance(candidate, int) or len(str(candidate)) != 6:
@@ -6,27 +7,22 @@ def valid(candidate):
         return False
 
     # increasing (next digit is > or ==)
-    try:
-        prev = permutation[0]
-        for digit in permutation[1:]:
-            # not increasing
-            if digit < prev:
-                return False
-            prev = digit
+    prev = permutation[0]
+    for digit in permutation[1:]:
+        # not increasing
+        if digit < prev:
+            return False
+        prev = digit
 
-        # at lease 2 adjacent digits are the same
-        prev = permutation[0]
-        for digit in permutation[1:]:
-            # one adjacent match pair
-            if digit == prev:
-                return True
-            prev = digit
-        # Not matching adjacent digits - invalid
-        return False
-
-    except IndexError:
-        print('Empty input - invalid')
-        raise TypeError
+    # at lease 2 adjacent digits are the same
+    prev = permutation[0]
+    for digit in permutation[1:]:
+        # one adjacent match pair
+        if digit == prev:
+            return True
+        prev = digit
+    # Not matching adjacent digits - invalid
+    return False
 
 
 def valid_refined(candidate):
@@ -38,12 +34,6 @@ def valid_refined(candidate):
     for char in permutation[::-1]:
         if 2 == permutation.count(char):
             return True
-        # "largest" numerical group has only 2 matching adjacent elements
-        # if 1 < permutation.count(char) <= 2:
-            return True
-        # "largest" numerical group has more than 2 matching adjacent elements
-        # if 1 < permutation.count(char) > 2:
-            return False
     # didn't find a true condition
     return False
 
