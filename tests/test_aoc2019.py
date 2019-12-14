@@ -1,12 +1,12 @@
 #!/usr/bin/env python
-
-"""Tests for `aoc2019` package."""
-
 import pytest
 from aoc2019.day_one import day_one_util
 from aoc2019.day_two import int_code
 from aoc2019.day_three import wire_runner
 from aoc2019.day_three.wire_runner import Empty, End, Wire, WireGrid, WireTable
+from aoc2019.day_four.container_cracker import valid, valid_refined
+
+"""Tests for `aoc2019` package."""
 
 @pytest.fixture
 def response():
@@ -192,6 +192,7 @@ def test_day_three_get_min_wire_table():
     dist = test_wire_table2.get_min_manhattan_dist()
     assert 159 == dist
 
+
 def test_day_three_find_min_steps():
     """
     Test case: Pass 2 sets of "trace" instructions to WireTable and verify manhattan
@@ -220,3 +221,34 @@ def test_day_three_find_min_steps():
     dist = test_wire_table2.get_min_manhattan_dist()
     steps = test_wire_table2.find_min_steps()
     assert 610 == steps
+
+
+def test_day_four_is_valid():
+    """
+    Test case: Assert that the valid function appropriately returns true for
+    valid input.
+    """
+    test_one = 111111
+    test_two = 223450
+    test_three = 123789
+    test_four = 128888
+    assert valid(test_one)
+    assert not valid(test_two)
+    assert not valid(test_three)
+    assert valid(test_four)
+
+
+def test_day_four_is_valid_refined():
+    """
+    Test case: Assert that the valid_refined function appropriately returns
+    true for valid input.
+    """
+    test_one = 112233
+    test_two = 123444
+    test_three = 111122
+    test_four = 127889
+    assert valid_refined(test_one)
+    assert not valid_refined(test_two)
+    assert valid_refined(test_three)
+    assert valid_refined(test_four)
+
