@@ -1,7 +1,7 @@
-def valid(input):
-    permutation = str(input)
+def valid(candidate):
+    permutation = str(candidate)
     # six digit number
-    if not isinstance(input, int) or len(str(input)) != 6:
+    if not isinstance(candidate, int) or len(str(candidate)) != 6:
         # not a size digit number
         return False
 
@@ -29,6 +29,16 @@ def valid(input):
         raise TypeError
 
 
+def valid_refined(candidate):
+    """Utility function that determines if a passed permutation is valid"""
+    permutation = str(candidate)
+    for char in permutation:
+        if permutation.count(char) > 2:
+            return False
+    # didn't find fail condition
+    return True
+
+
 class CrackIt:
     """
     This is a class that stores values for Secure Container password ranges
@@ -40,6 +50,7 @@ class CrackIt:
         self.range_start = start
         self.range_end = end
         self.valid_candidates = []  # a list of valid password candidates
+        self.valid_candidates_refined = []  # a list of refined valid password candidates
 
     def get_valid_permutations(self):
         """Utility method to generate list of valid password candidates"""
@@ -51,6 +62,19 @@ class CrackIt:
         # list of valid candidates generated
         return self.valid_candidates
 
-    def get_num_valid_permutations(self):
+    def count_valid_permutations(self):
         """Simple utility method to return the number of valid possibilities"""
         return len(self.get_valid_permutations())
+
+    def get_valid_permutations_refined(self):
+        """Utility method to generate a sub list of refined valid password candidates"""
+        for permutation in self.valid_candidates:
+            if valid_refined(permutation):
+                self.valid_candidates_refined.append(permutation)
+
+        # refined list of valid password candidates generated
+        return self.valid_candidates_refined
+
+    def count_valid_permutations_refined(self):
+        """Utility method to count the number of refined valid password candidates"""
+        return len(self.get_valid_permutations_refined())
