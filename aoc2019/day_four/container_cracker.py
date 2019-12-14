@@ -1,7 +1,7 @@
 def valid(input):
     permutation = str(input)
     # six digit number
-    if input is not isinstance(input, int) or len(str(input)) != 6:
+    if not isinstance(input, int) or len(str(input)) != 6:
         # not a size digit number
         return False
 
