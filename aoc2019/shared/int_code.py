@@ -37,12 +37,20 @@ class IntCode:
                       2: self.multiply_opp,
                       3: self.input_opp,
                       4: self.output_opp,
+                      5: self.jump_true_opp,
+                      6: self.jump_false_opp,
+                      7: self.less_opp,
+                      8: self.equals_opp,
                       99: stop}
         # dynamic index increment values
         self.increment_value = {1: 4,
                                 2: 4,
                                 3: 2,
                                 4: 2,
+                                5: 3,
+                                6: 3,
+                                7: 4,
+                                8: 4,
                                 99: 4}
         self.index = 0
         self.isDone = False
