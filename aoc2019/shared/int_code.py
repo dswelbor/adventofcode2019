@@ -43,7 +43,7 @@ class IntCode:
         if self.isDone:
             return
 
-        code = self.list[self.index]
+        code = self.get_instruction()
         try:
             #target = self.list[self.index + 3]
             #terms = [self.list[self.list[self.index + 1]], 0]
@@ -72,6 +72,10 @@ class IntCode:
         # parameter mode is 0 - position mode
         else:
             return self.list[param]
+
+    def get_instruction(self):
+        code = str(self.list[self.index])[-2:]
+        return int(code)
 
     def visit_next(self):
         """Visits the next block of int codes"""

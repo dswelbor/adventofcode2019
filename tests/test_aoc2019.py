@@ -80,6 +80,7 @@ def test_day_two_int_code_visit_all():
     print(test_obj3.list)
     assert 3790645 == test_obj3.list[0]
 
+
 def test_day_three_grid_resize():
     """Test case: initialize a new grid and test the grid for accuracy after resize"""
     initial_grid = wire_runner.init_grid(3)
@@ -263,3 +264,11 @@ def test_day_four_is_valid_refined():
     assert valid_refined(test_three)
     assert valid_refined(test_four)
 
+
+def test_day_five_add_opp():
+    # [1101,100,-1,4,0]
+    test_list = [1101, 100, -1, 4, 0]
+    test_obj = int_code.IntCode(test_list)
+    test_obj.visit_all()  # Expect ---
+    print(test_obj.list)
+    assert 99 == test_obj.list[4]
