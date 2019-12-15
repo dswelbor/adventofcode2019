@@ -32,7 +32,7 @@ class IntCode:
     def __init__(self, args):
         """Simple ctor"""
         self.list = args
-        self.codes = {1: add, 2: multiply, 99: stop}  # dynamic dispatch function calls
+        self.codes = {1: self.add_opp, 2: self.multiply_opp, 99: stop}  # dynamic dispatch function calls
         self.index = 0
         self.isDone = False
         self.output_codes = []  # a list to store the resulting output codes
@@ -45,33 +45,25 @@ class IntCode:
 
         code = self.list[self.index]
         try:
-            target = self.list[self.index + 3]
-            terms = [self.list[self.list[self.index + 1]], 0]
-            terms[1] = self.list[self.list[self.index + 2]]
-            self.list[target] = self.codes[code](terms)
+            #target = self.list[self.index + 3]
+            #terms = [self.list[self.list[self.index + 1]], 0]
+            #terms[1] = self.list[self.list[self.index + 2]]
+            #self.list[target] = self.codes[code](terms)
+            self.codes[code]()
         # out of bounds
         except (IndexError, TypeError):
-            try:
-                self.list[target] = self.codes[code]()
-            except TypeError:
-                # invalid initial values
-                stop()
-
-    def input_opp(self):
-        """This operation takes an index and saves the "input" at the index parameter"""
-        param = self.list[self.index + 1]
-        self.list[param] = self.DEF_INPUT
-
-    def output_opp(self):
-        """
-        This operations prints either the passed value or the value at the
-        passed index. Instruction 4, 50 indicates instruction # 4 (this instruction) and 0
-        for the parameter mode - ie position mode. It outputs the value stored at index 50.
-        """
-        # save the output code with the get_value result - parameter offset of 1
-        self.output_codes.append(self.get_value(1))
+            #try:
+            #    self.list[target] = self.codes[code]()
+            #except TypeError:
+            #    # invalid initial values
+            #    stop()
+            pass
 
     def get_value(self, offset):
+        """
+        Utility method that returns either the positional indexed value or
+        immediate literal value - depending on instruction opp code
+        """
         code = f'{self.list[self.index]:05}'
         param = self.list[self.index + offset]
         # parameter mode is 1 - immediate mode
@@ -98,7 +90,38 @@ class IntCode:
         while not self.isDone:
             self.visit_next()
 
+    def input_opp(self):
+        """This operation takes an index and saves the "input" at the index parameter"""
+        param = self.list[self.index + 1]
+        self.list[param] = self.DEF_INPUT
 
+    def output_opp(self):
+        """
+        This operations prints either the passed value or the value at the
+        passed index. Instruction 4, 50 indicates instruction # 4 (this instruction) and 0
+        for the parameter mode - ie position mode. It outputs the value stored at index 50.
+        """
+        # "output" the output code with the get_value result - parameter offset of 1
+        self.output_codes.append(self.get_value(1))
+
+    def add_opp(self):
+        """
+        This operation adds two numbers - passing the appropriate terms to
+        the add function"""
+        target = self.list[self.index + 3]
+        terms = [self.get_value(1), self.get_value(2)]
+        self.list[target] = add(terms)
+
+    def multiply_opp(self):
+        """
+        This operation multiples two numbers - passing the appropriate terms
+        to the multiply function
+        """
+
+        target = self.list[self.index + 3]
+        terms = [self.get_value(1), self.get_value(2)]
+        # terms[1] = self.list[self.get_value(2)]
+        self.list[target] = multiply(terms)
 
 
 class Done(Exception):
