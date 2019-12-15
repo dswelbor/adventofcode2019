@@ -155,8 +155,8 @@ class IntCode:
         Instruction # 5: if the first parameter is non-zero, it sets the instruction pointer
         to the value from the second parameter. Otherwise, it does nothing.
         """
-        param_one = self.list[self.index + 1]
-        param_two = self.list[self.index + 2]
+        param_one = self.get_value(1)
+        param_two = self.get_value(2)
 
         # first param is non-zero - jump to instruction at 2nd param
         if param_one is not 0:
@@ -174,8 +174,8 @@ class IntCode:
         Instruction # 6: if the first parameter is zero, it sets the instruction
         pointer to the value from the second parameter. Otherwise, it does nothing.
         """
-        param_one = self.list[self.index + 1]
-        param_two = self.list[self.index + 2]
+        param_one = self.get_value(1)
+        param_two = self.get_value(2)
 
         # first param is zero (false) - jump to instruction at 2nd param
         if param_one is 0:
@@ -194,7 +194,16 @@ class IntCode:
         it stores 1 in the position given by the third parameter. Otherwise, it
         stores 0.
         """
-        pass
+        # get three params
+        param_one = self.get_value(1)
+        param_two = self.get_value(2)
+        target = self.get_value(3)
+        # param 1 less than param 2
+        if param_one < param_two:
+            self.list[target] = 1
+        # param 1 is not less than param 2
+        else:
+            self.list[target] = 0
 
     def equals_opp(self):
         """
@@ -202,7 +211,16 @@ class IntCode:
         it stores 1 in the position given by the third parameter. Otherwise, it
         stores 0.
         """
-        pass
+        # get three params
+        param_one = self.get_value(1)
+        param_two = self.get_value(2)
+        target = self.get_value(3)
+        # param1 == param2
+        if param_one is param_two:
+            self.list[target] = 1
+        # param 1 != param 2
+        else:
+            self.list[target] = 0
 
 
 class Done(Exception):
