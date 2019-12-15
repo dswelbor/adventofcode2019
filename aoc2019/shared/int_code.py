@@ -28,9 +28,13 @@ def stop():
 
 class IntCode:
     DEF_INPUT = 1
+    JUMP_TRUE_CODE = 5
+    JUMP_FALSE_CODE = 6
+    JUMP_OFFSET = 3
     """Class to define attributes and behavior for an 'int code' collection"""
     def __init__(self, args):
         """Simple ctor"""
+        self.init_input = self.DEF_INPUT
         self.list = args
         # dynamic dispatch function calls
         self.codes = {1: self.add_opp,
@@ -47,8 +51,8 @@ class IntCode:
                                 2: 4,
                                 3: 2,
                                 4: 2,
-                                5: 3,
-                                6: 3,
+                                self.JUMP_TRUE_CODE: self.JUMP_OFFSET,
+                                self.JUMP_FALSE_CODE: self.JUMP_OFFSET,
                                 7: 4,
                                 8: 4,
                                 99: 4}
@@ -92,6 +96,7 @@ class IntCode:
 
     def visit_next(self):
         """Visits the next block of int codes"""
+        code = self.get_instruction()  # save instruction code for current iteration
         try:
             self.visit()
         except Done:
@@ -101,7 +106,7 @@ class IntCode:
             print('An error has occurred - wrong opp code')
 
         # dynamically increment the instruction pointer
-        self.index += self.increment_value[self.get_instruction()]
+        self.index += self.increment_value[code]
 
     def visit_all(self):
         """Iterates through all int code blocks"""
@@ -114,7 +119,7 @@ class IntCode:
         the index parameter
         """
         param = self.list[self.index + 1]
-        self.list[param] = self.DEF_INPUT
+        self.list[param] = self.init_input
 
     def output_opp(self):
         """
@@ -150,14 +155,38 @@ class IntCode:
         Instruction # 5: if the first parameter is non-zero, it sets the instruction pointer
         to the value from the second parameter. Otherwise, it does nothing.
         """
-        pass
+        param_one = self.list[self.index + 1]
+        param_two = self.list[self.index + 2]
+
+        # first param is non-zero - jump to instruction at 2nd param
+        if param_one is not 0:
+            self.index = param_two
+            self.increment_value[self.JUMP_TRUE_CODE] = 0  # index ptr moved already
+
+        # first param is zero (false) - do nothing
+        else:
+            # don't modify index ptr
+            # re-set increment value to appropriate offset
+            self.increment_value[self.JUMP_TRUE_CODE] = self.JUMP_OFFSET
 
     def jump_false_opp(self):
         """
         Instruction # 6: if the first parameter is zero, it sets the instruction
         pointer to the value from the second parameter. Otherwise, it does nothing.
         """
-        pass
+        param_one = self.list[self.index + 1]
+        param_two = self.list[self.index + 2]
+
+        # first param is zero (false) - jump to instruction at 2nd param
+        if param_one is 0:
+            self.index = param_two
+            self.increment_value[self.JUMP_FALSE_CODE] = 0  # index ptr moved already
+
+        # first param is non-zero (true) - do nothing
+        else:
+            # don't modify index ptr
+            # re-set increment value to appropriate offset
+            self.increment_value[self.JUMP_FALSE_CODE] = self.JUMP_OFFSET
 
     def less_opp(self):
         """
