@@ -32,7 +32,8 @@ class IntCode:
     def __init__(self, args):
         """Simple ctor"""
         self.list = args
-        self.codes = {1: self.add_opp, 2: self.multiply_opp, 99: stop}  # dynamic dispatch function calls
+        self.codes = {1: self.add_opp, 2: self.multiply_opp, 3: self.input_opp, 4: self.output_opp, 99: stop}  # dynamic dispatch function calls
+        self.increment_value = {1: 4, 2: 4, 3: 2, 4: 2, 99: 4}
         self.index = 0
         self.isDone = False
         self.output_codes = []  # a list to store the resulting output codes
@@ -88,7 +89,8 @@ class IntCode:
         except KeyError:
             print('An error has occurred - wrong opp code')
 
-        self.index += 4
+        # dynamically increment the instruction pointer
+        self.index += self.increment_value[self.get_instruction()]
 
     def visit_all(self):
         """Iterates through all int code blocks"""
