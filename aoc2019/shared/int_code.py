@@ -64,7 +64,8 @@ class IntCode:
         Utility method that returns either the positional indexed value or
         immediate literal value - depending on instruction opp code
         """
-        code = f'{self.list[self.index]:05}'
+        # code = f'{self.list[self.index]:05}'
+        code = '{0:05}'.format(self.list[self.index])
         param = self.list[self.index + offset]
         # parameter mode is 1 - immediate mode
         if '1' == code[-2 - offset]:
