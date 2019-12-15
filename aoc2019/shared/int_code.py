@@ -27,6 +27,7 @@ def stop():
 
 
 class IntCode:
+    DEF_INPUT = 1
     """Class to define attributes and behavior for an 'int code' collection"""
     def __init__(self, args):
         """Simple ctor"""
@@ -34,6 +35,7 @@ class IntCode:
         self.codes = {1: add, 2: multiply, 99: stop}  # dynamic dispatch function calls
         self.index = 0
         self.isDone = False
+        self.output_codes = []  # a list to store the resulting output codes
 
     def visit(self):
         """Visits a block of 4 int codes and does an operation"""
@@ -55,6 +57,30 @@ class IntCode:
                 # invalid initial values
                 stop()
 
+    def input_opp(self):
+        """This operation takes an index and saves the "input" at the index parameter"""
+        param = self.list[self.index + 1]
+        self.list[param] = self.DEF_INPUT
+
+    def output_opp(self):
+        """
+        This operations prints either the passed value or the value at the
+        passed index. Instruction 4, 50 indicates instruction # 4 (this instruction) and 0
+        for the parameter mode - ie position mode. It outputs the value stored at index 50.
+        """
+        # save the output code with the get_value result - parameter offset of 1
+        self.output_codes.append(self.get_value(1))
+
+    def get_value(self, offset):
+        code = f'{self.list[self.index]:05}'
+        param = self.list[self.index + offset]
+        # parameter mode is 1 - immediate mode
+        if '1' == code[-2 - offset]:
+            return param
+        # parameter mode is 0 - position mode
+        else:
+            return self.list[param]
+
     def visit_next(self):
         """Visits the next block of int codes"""
         try:
@@ -71,6 +97,8 @@ class IntCode:
         """Iterates through all int code blocks"""
         while not self.isDone:
             self.visit_next()
+
+
 
 
 class Done(Exception):
