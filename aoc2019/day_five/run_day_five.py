@@ -17,4 +17,12 @@ print('Part One - get diagnostic code:')
 d_code = int_code_p1.output_codes[-1]
 print(d_code)
 
+# Part Two - run diagnostic tests with jump and comparative instruction methods
+print('Part Two - run diagnostic tests with jump and comparator instruction methods: ')
+int_code_p2 = IntCode(input_codes[:])
+int_code_p2.run(5)
+d_code = int_code_p2.output_codes[-1]
+# NOT 13377821
+print(d_code)
+
 

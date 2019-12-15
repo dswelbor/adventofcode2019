@@ -60,6 +60,14 @@ class IntCode:
         self.isDone = False
         self.output_codes = []  # a list to store the resulting output codes
 
+    def run(self, init_input):
+        """
+        This method initializes run with the passed input, then proceeds to
+        process the object's instructions.
+        """
+        self.init_input = init_input
+        self.visit_all()
+
     def visit(self):
         """Visits a block of 4 int codes and does an operation"""
         # special case - done

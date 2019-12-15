@@ -266,9 +266,57 @@ def test_day_four_is_valid_refined():
 
 
 def test_day_five_add_opp():
+    """
+    Test case: Assert that add_opp with immediate mode enabled works as intended.
+    """
     # [1101,100,-1,4,0]
     test_list = [1101, 100, -1, 4, 0]
     test_obj = int_code.IntCode(test_list)
     test_obj.visit_all()  # Expect ---
     print(test_obj.list)
     assert 99 == test_obj.list[4]
+
+
+def test_day_five_jump_position():
+    """Test case: Assert that jump functions work with position mode."""
+    test_list = [3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9]
+    test_obj = int_code.IntCode(test_list[:])
+    test_obj.run(0)
+    assert 0 == test_obj.output_codes[-1]
+
+    # try with input 1
+    test_obj2 = int_code.IntCode(test_list[:])
+    test_obj2.run(1)
+    assert 1 == test_obj2.output_codes[-1]
+
+
+def test_day_five_jump_immediate():
+    """Test case: Assert that jump functions work with immediate mode"""
+    test_list = [3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1]
+    test_obj = int_code.IntCode(test_list[:])
+    test_obj.run(0)
+    assert 0 == test_obj.output_codes[-1]
+
+    # try with input 1
+    test_obj2 = int_code.IntCode(test_list[:])
+    test_obj2.run(1)
+    assert 1 == test_obj2.output_codes[-1]
+
+
+def test_day_five_run_input():
+    """
+    Test case: Assert that new methods produce expected output diagnostic code
+    for provided input.
+    """
+    test_list = [3, 21, 1008, 21, 8, 20, 1005, 20, 22, 107, 8, 21, 20, 1006,
+                 20, 31, 1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20,
+                 1105, 1, 46, 104, 999, 1105, 1, 46, 1101, 1000, 1, 20, 4,
+                 20, 1105, 1, 46, 98, 99]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(7)
+    assert 999 == test_obj.output_codes[-1]
+
+    # test with input >= 8
+    test_obj2 = int_code.IntCode(test_list.copy())
+    test_obj2.run(9)
+    assert 1001 == test_obj2.output_codes[-1]
