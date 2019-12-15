@@ -32,8 +32,18 @@ class IntCode:
     def __init__(self, args):
         """Simple ctor"""
         self.list = args
-        self.codes = {1: self.add_opp, 2: self.multiply_opp, 3: self.input_opp, 4: self.output_opp, 99: stop}  # dynamic dispatch function calls
-        self.increment_value = {1: 4, 2: 4, 3: 2, 4: 2, 99: 4}
+        # dynamic dispatch function calls
+        self.codes = {1: self.add_opp,
+                      2: self.multiply_opp,
+                      3: self.input_opp,
+                      4: self.output_opp,
+                      99: stop}
+        # dynamic index increment values
+        self.increment_value = {1: 4,
+                                2: 4,
+                                3: 2,
+                                4: 2,
+                                99: 4}
         self.index = 0
         self.isDone = False
         self.output_codes = []  # a list to store the resulting output codes
@@ -46,18 +56,11 @@ class IntCode:
 
         code = self.get_instruction()
         try:
-            #target = self.list[self.index + 3]
-            #terms = [self.list[self.list[self.index + 1]], 0]
-            #terms[1] = self.list[self.list[self.index + 2]]
-            #self.list[target] = self.codes[code](terms)
+            # dynamic dispatch based on instruction code
             self.codes[code]()
         # out of bounds
         except (IndexError, TypeError):
-            #try:
-            #    self.list[target] = self.codes[code]()
-            #except TypeError:
-            #    # invalid initial values
-            #    stop()
+            # do nothing exception handler
             pass
 
     def get_value(self, offset):
@@ -98,13 +101,16 @@ class IntCode:
             self.visit_next()
 
     def input_opp(self):
-        """This operation takes an index and saves the "input" at the index parameter"""
+        """
+        Instruction # 3: This operation takes an index and saves the "input" at
+        the index parameter
+        """
         param = self.list[self.index + 1]
         self.list[param] = self.DEF_INPUT
 
     def output_opp(self):
         """
-        This operations prints either the passed value or the value at the
+        Instruction # 4: This operations prints either the passed value or the value at the
         passed index. Instruction 4, 50 indicates instruction # 4 (this instruction) and 0
         for the parameter mode - ie position mode. It outputs the value stored at index 50.
         """
@@ -113,15 +119,16 @@ class IntCode:
 
     def add_opp(self):
         """
-        This operation adds two numbers - passing the appropriate terms to
-        the add function"""
+        Instruction # 1: This operation adds two numbers - passing the appropriate
+        terms to the add function.
+        """
         target = self.list[self.index + 3]
         terms = [self.get_value(1), self.get_value(2)]
         self.list[target] = add(terms)
 
     def multiply_opp(self):
         """
-        This operation multiples two numbers - passing the appropriate terms
+        Instruction # 2: This operation multiples two numbers - passing the appropriate terms
         to the multiply function
         """
 
@@ -129,6 +136,36 @@ class IntCode:
         terms = [self.get_value(1), self.get_value(2)]
         # terms[1] = self.list[self.get_value(2)]
         self.list[target] = multiply(terms)
+
+    def jump_true_opp(self):
+        """
+        Instruction # 5: if the first parameter is non-zero, it sets the instruction pointer
+        to the value from the second parameter. Otherwise, it does nothing.
+        """
+        pass
+
+    def jump_false_opp(self):
+        """
+        Instruction # 6: if the first parameter is zero, it sets the instruction
+        pointer to the value from the second parameter. Otherwise, it does nothing.
+        """
+        pass
+
+    def less_opp(self):
+        """
+        Instruction #7: if the first parameter is less than the second parameter,
+        it stores 1 in the position given by the third parameter. Otherwise, it
+        stores 0.
+        """
+        pass
+
+    def equals_opp(self):
+        """
+        Instruction #8: if the first parameter is equal to the second parameter,
+        it stores 1 in the position given by the third parameter. Otherwise, it
+        stores 0.
+        """
+        pass
 
 
 class Done(Exception):
