@@ -10,7 +10,7 @@ input_codes = []
 for num_str in input_list:
     input_codes.append(int(num_str))
 
-int_code_p1 = IntCode(input_codes[:])
+int_code_p1 = IntCode(input_codes.copy())
 int_code_p1.visit_all()  # test data
 # Part one - run tests and get diagnostic code
 print('Part One - get diagnostic code:')
@@ -19,10 +19,12 @@ print(d_code)
 
 # Part Two - run diagnostic tests with jump and comparative instruction methods
 print('Part Two - run diagnostic tests with jump and comparator instruction methods: ')
-int_code_p2 = IntCode(input_codes[:])
+# print(input_codes[:])
+int_code_p2 = IntCode(input_codes.copy())
 int_code_p2.run(5)
 d_code = int_code_p2.output_codes[-1]
-# NOT 13377821
+# NOT 13377821 - too high
+# NOT 10363292 - too low
 print(d_code)
 
 

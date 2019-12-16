@@ -299,8 +299,62 @@ def test_day_five_jump_immediate():
 
     # try with input 1
     test_obj2 = int_code.IntCode(test_list[:])
-    test_obj2.run(1)
+    test_obj2.run(4)
     assert 1 == test_obj2.output_codes[-1]
+
+
+def test_day_five_equals_position():
+    """Test case: Assert that equals method works with position mode."""
+    # [3,9,8,9,10,9,4,9,99,-1,8]
+    test_list = [3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(8)
+    assert 1 == test_obj.output_codes[-1]
+
+
+def test_day_five_equals_immediate():
+    """Test case: Assert that equals method works with position mode."""
+    # [3,3,1108,-1,8,3,4,3,99]
+    test_list = [3, 3, 1108, -1, 8, 3, 4, 3, 99]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(8)
+    assert 1 == test_obj.output_codes[-1]
+
+    # test input not == 8
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(9)
+    assert 0 == test_obj.output_codes[-1]
+
+
+def test_day_five_less_position():
+    """Test case: Assert that equals method works with position mode. Expect output 0 - not less than 8"""
+    # 3,9,7,9,10,9,4,9,99,-1,8
+    # input not < 8
+    test_list = [3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(8)
+    assert 0 == test_obj.output_codes[-1]
+
+    # try with input < 8
+    test_obj2 = int_code.IntCode(test_list.copy())
+    test_obj2.run(7)
+    assert 1 == test_obj2.output_codes[-1]
+
+
+def test_day_five_less_immediate():
+    """Test case: Assert that equals method works with position mode. Expect output 0 - not less than 8"""
+    # 3,3,1107,-1,8,3,4,3,99
+    # input not < 8
+    test_list = [3, 3, 1107, -1, 8, 3, 4, 3, 99]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(8)
+    assert 0 == test_obj.output_codes[-1]
+
+    # try with input < 8
+    test_obj2 = int_code.IntCode(test_list.copy())
+    test_obj2.run(7)
+    assert 1 == test_obj2.output_codes[-1]
+
 
 
 def test_day_five_run_input():
@@ -316,7 +370,12 @@ def test_day_five_run_input():
     test_obj.run(7)
     assert 999 == test_obj.output_codes[-1]
 
-    # test with input >= 8
+    # test with input = 8
     test_obj2 = int_code.IntCode(test_list.copy())
-    test_obj2.run(9)
-    assert 1001 == test_obj2.output_codes[-1]
+    test_obj2.run(8)
+    assert 1000 == test_obj2.output_codes[-1]
+
+    # test with input > 8
+    test_obj3 = int_code.IntCode(test_list.copy())
+    test_obj3.run(9)
+    assert 1001 == test_obj3.output_codes[-1]

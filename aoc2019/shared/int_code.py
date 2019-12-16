@@ -99,7 +99,7 @@ class IntCode:
             return self.list[param]
 
     def get_instruction(self):
-        code = str(self.list[self.index])[-2:]
+        code = '{0:05}'.format(self.list[self.index])[-2:]
         return int(code)
 
     def visit_next(self):
@@ -205,7 +205,8 @@ class IntCode:
         # get three params
         param_one = self.get_value(1)
         param_two = self.get_value(2)
-        target = self.get_value(3)
+        # target = self.get_value(3)
+        target = self.list[self.index + 3]
         # param 1 less than param 2
         if param_one < param_two:
             self.list[target] = 1
@@ -222,7 +223,8 @@ class IntCode:
         # get three params
         param_one = self.get_value(1)
         param_two = self.get_value(2)
-        target = self.get_value(3)
+        # target = self.get_value(3)
+        target = self.list[self.index + 3]
         # param1 == param2
         if param_one is param_two:
             self.list[target] = 1
