@@ -226,7 +226,7 @@ class IntCode:
         # target = self.get_value(3)
         target = self.list[self.index + 3]
         # param1 == param2
-        if param_one is param_two:
+        if param_one == param_two:
             self.list[target] = 1
         # param 1 != param 2
         else:

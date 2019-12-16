@@ -23,8 +23,7 @@ print('Part Two - run diagnostic tests with jump and comparator instruction meth
 int_code_p2 = IntCode(input_codes.copy())
 int_code_p2.run(5)
 d_code = int_code_p2.output_codes[-1]
-# NOT 13377821 - too high
-# NOT 10363292 - too low
+# expect 10428568
 print(d_code)
 
 
