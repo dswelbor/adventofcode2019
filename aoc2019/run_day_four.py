@@ -14,7 +14,7 @@ valid_qty = permutation_cracker.count_valid_permutations()
 print(valid_qty)
 
 # Part two
-print('Day 4 part 2 - Find the number of refine valid permutations')
+print('Day 4 part 2 - Find the number of refined valid permutations')
 print('calculating...')
 valid_qty_refined = permutation_cracker.count_valid_permutations_refined()
 print(valid_qty_refined)

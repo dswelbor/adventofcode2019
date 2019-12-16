@@ -12,7 +12,12 @@ class PlanetaryBuilder:
         This method populates a dictionary of orbiting entities to be built
         into a tree later.
         """
+        # set new root
+        if satellite == self.root:
+            self.root = central
+
         try:
+            # self.planets[central] = list(set(self.planets[central].append(satellite)))
             self.planets[central].append(satellite)
         except AttributeError:
             self.planets[central] = []
