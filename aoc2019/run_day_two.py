@@ -1,10 +1,10 @@
 #from aoc2019.day_two.int_code import IntCode, brute_force
-from aoc2019.shared.int_code import IntCode, brute_force
+from shared.int_code import IntCode, brute_force
 
 """Runner script for Day 2 Advent of Code challenge - relies on IntCode class for logic"""
 
 # Get list of numbers from input
-input_file = open('input_day_two.txt', 'r')
+input_file = open('day_two/input_day_two.txt', 'r')
 input_str = input_file.read()
 input_list = input_str.split(',')
 input_codes = []
@@ -16,7 +16,7 @@ input_codes[1] = 12
 input_codes[2] = 2
 
 print('Part One: Conditioned initial input:')
-print(input_codes)
+# print(input_codes)
 
 # Part 1
 # Populate IntCode object with inout and reconstruct data

@@ -1,9 +1,9 @@
-from aoc2019.shared.int_code import IntCode
+from shared.int_code import IntCode
 
 """Runner script for Day 5 Advent of Code challenge - relies on refactored IntCode class for logic"""
 
 # Get list of numbers from input
-input_file = open('input_day_five.txt', 'r')
+input_file = open('day_five/input_day_five.txt', 'r')
 input_str = input_file.read()
 input_list = input_str.split(',')
 input_codes = []

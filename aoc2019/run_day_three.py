@@ -1,10 +1,10 @@
-from wire_runner import WireTable, WireGrid
+from day_three.wire_runner import WireTable, WireGrid
 
 
 """This module provides the run functionality for day three aoc2019 solution"""
 
 # Read in input txt file
-input_file = open('input_day_three.txt', 'r')
+input_file = open('day_three/input_day_three.txt', 'r')
 line_one = input_file.readline()
 line_two = input_file.readline()
 
