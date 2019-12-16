@@ -60,12 +60,12 @@ Ready to contribute? Here's how to set up `advent2019` for local development.
 1. Fork the `advent2019` repo on GitHub.
 2. Clone your fork locally::
 
-    $ git clone git@github.com:your_name_here/aoc2019.git
+    $ git clone git@github.com:your_name_here/advent2019.git
 
 3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
 
     $ mkvirtualenv aoc2019
-    $ cd aoc2019/
+    $ cd advent2019/
     $ python setup.py develop
 
 4. Create a branch for local development::
@@ -77,7 +77,7 @@ Ready to contribute? Here's how to set up `advent2019` for local development.
 5. When you're done making changes, check that your changes pass flake8 and the
    tests, including testing other Python versions with tox::
 
-    $ flake8 aoc2019 tests
+    $ flake8 advent2019 tests
     $ python setup.py test or pytest
     $ tox
 
@@ -109,7 +109,7 @@ Tips
 
 To run a subset of tests::
 
-$ pytest tests.test_aoc2019
+$ pytest tests/test_aoc2019.py
 
 
 Deploying
@@ -117,10 +117,3 @@ Deploying
 
 A reminder for the maintainers on how to deploy.
 Make sure all your changes are committed (including an entry in HISTORY.rst).
-Then run::
-
-$ bump2version patch # possible: major / minor / patch
-$ git push
-$ git push --tags
-
-Travis will then deploy to PyPI if tests pass.

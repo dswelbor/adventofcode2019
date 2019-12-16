@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import pytest
 from aoc2019.day_one import day_one_util
-from aoc2019.day_two import int_code
+from aoc2019.shared import int_code
 from aoc2019.day_three import wire_runner
 from aoc2019.day_three.wire_runner import Empty, End, Wire, WireGrid, WireTable
 from aoc2019.day_four.container_cracker import valid, valid_refined
@@ -67,6 +67,18 @@ def test_day_two_int_code_visit_all():
     print(test_obj2.list)
     assert 30 == test_obj2.list[0]
     assert 2 == test_obj2.list[4]
+
+    # test list 3
+    test_list3 = [1, 12, 2, 3, 1, 1, 2, 3, 1, 3, 4, 3, 1, 5, 0, 3, 2, 1, 10, 19,
+                  1, 19, 6, 23, 2, 23, 13, 27, 1, 27, 5, 31, 2, 31, 10, 35, 1, 9,
+                  35, 39, 1, 39, 9, 43, 2, 9, 43, 47, 1, 5, 47, 51, 2, 13, 51, 55,
+                  1, 55, 9, 59, 2, 6, 59, 63, 1, 63, 5, 67, 1, 10, 67, 71, 1, 71,
+                  10, 75, 2, 75, 13, 79, 2, 79, 13, 83, 1, 5, 83, 87, 1, 87, 6, 91,
+                  2, 91, 13, 95, 1, 5, 95, 99, 1, 99, 2, 103, 1, 103, 6, 0, 99, 2, 14, 0, 0]
+    test_obj3 = int_code.IntCode(test_list3)
+    test_obj3.visit_all()
+    print(test_obj3.list)
+    assert 3790645 == test_obj3.list[0]
 
 
 def test_day_three_grid_resize():
@@ -252,3 +264,118 @@ def test_day_four_is_valid_refined():
     assert valid_refined(test_three)
     assert valid_refined(test_four)
 
+
+def test_day_five_add_opp():
+    """
+    Test case: Assert that add_opp with immediate mode enabled works as intended.
+    """
+    # [1101,100,-1,4,0]
+    test_list = [1101, 100, -1, 4, 0]
+    test_obj = int_code.IntCode(test_list)
+    test_obj.visit_all()  # Expect ---
+    print(test_obj.list)
+    assert 99 == test_obj.list[4]
+
+
+def test_day_five_jump_position():
+    """Test case: Assert that jump functions work with position mode."""
+    test_list = [3, 12, 6, 12, 15, 1, 13, 14, 13, 4, 13, 99, -1, 0, 1, 9]
+    test_obj = int_code.IntCode(test_list[:])
+    test_obj.run(0)
+    assert 0 == test_obj.output_codes[-1]
+
+    # try with input 1
+    test_obj2 = int_code.IntCode(test_list[:])
+    test_obj2.run(1)
+    assert 1 == test_obj2.output_codes[-1]
+
+
+def test_day_five_jump_immediate():
+    """Test case: Assert that jump functions work with immediate mode"""
+    test_list = [3, 3, 1105, -1, 9, 1101, 0, 0, 12, 4, 12, 99, 1]
+    test_obj = int_code.IntCode(test_list[:])
+    test_obj.run(0)
+    assert 0 == test_obj.output_codes[-1]
+
+    # try with input 1
+    test_obj2 = int_code.IntCode(test_list[:])
+    test_obj2.run(4)
+    assert 1 == test_obj2.output_codes[-1]
+
+
+def test_day_five_equals_position():
+    """Test case: Assert that equals method works with position mode."""
+    # [3,9,8,9,10,9,4,9,99,-1,8]
+    test_list = [3, 9, 8, 9, 10, 9, 4, 9, 99, -1, 8]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(8)
+    assert 1 == test_obj.output_codes[-1]
+
+
+def test_day_five_equals_immediate():
+    """Test case: Assert that equals method works with position mode."""
+    # [3,3,1108,-1,8,3,4,3,99]
+    test_list = [3, 3, 1108, -1, 8, 3, 4, 3, 99]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(8)
+    assert 1 == test_obj.output_codes[-1]
+
+    # test input not == 8
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(9)
+    assert 0 == test_obj.output_codes[-1]
+
+
+def test_day_five_less_position():
+    """Test case: Assert that equals method works with position mode. Expect output 0 - not less than 8"""
+    # 3,9,7,9,10,9,4,9,99,-1,8
+    # input not < 8
+    test_list = [3, 9, 7, 9, 10, 9, 4, 9, 99, -1, 8]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(8)
+    assert 0 == test_obj.output_codes[-1]
+
+    # try with input < 8
+    test_obj2 = int_code.IntCode(test_list.copy())
+    test_obj2.run(7)
+    assert 1 == test_obj2.output_codes[-1]
+
+
+def test_day_five_less_immediate():
+    """Test case: Assert that equals method works with position mode. Expect output 0 - not less than 8"""
+    # 3,3,1107,-1,8,3,4,3,99
+    # input not < 8
+    test_list = [3, 3, 1107, -1, 8, 3, 4, 3, 99]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(8)
+    assert 0 == test_obj.output_codes[-1]
+
+    # try with input < 8
+    test_obj2 = int_code.IntCode(test_list.copy())
+    test_obj2.run(7)
+    assert 1 == test_obj2.output_codes[-1]
+
+
+
+def test_day_five_run_input():
+    """
+    Test case: Assert that new methods produce expected output diagnostic code
+    for provided input.
+    """
+    test_list = [3, 21, 1008, 21, 8, 20, 1005, 20, 22, 107, 8, 21, 20, 1006,
+                 20, 31, 1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20,
+                 1105, 1, 46, 104, 999, 1105, 1, 46, 1101, 1000, 1, 20, 4,
+                 20, 1105, 1, 46, 98, 99]
+    test_obj = int_code.IntCode(test_list.copy())
+    test_obj.run(7)
+    assert 999 == test_obj.output_codes[-1]
+
+    # test with input = 8
+    test_obj2 = int_code.IntCode(test_list.copy())
+    test_obj2.run(8)
+    assert 1000 == test_obj2.output_codes[-1]
+
+    # test with input > 8
+    test_obj3 = int_code.IntCode(test_list.copy())
+    test_obj3.run(9)
+    assert 1001 == test_obj3.output_codes[-1]

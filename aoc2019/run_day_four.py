@@ -1,4 +1,4 @@
-from container_cracker import CrackIt
+from day_four.container_cracker import CrackIt
 
 """This module provides the run functionality for day four aoc2019 solution"""
 
