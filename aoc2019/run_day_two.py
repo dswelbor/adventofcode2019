@@ -1,7 +1,10 @@
 # from aoc2019.day_two.int_code import IntCode, brute_force
 from shared.int_code import IntCode, brute_force
 
-"""Runner script for Day 2 Advent of Code challenge - relies on IntCode class for logic"""
+"""
+Runner script for Day 2 Advent of Code challenge - relies on IntCode class
+for logic
+"""
 
 # Get list of numbers from input
 input_file = open('day_two/input_day_two.txt', 'r')
@@ -31,7 +34,3 @@ target = 19690720
 result = brute_force(input_codes, target)
 print('Part Two - 100 * value1 + value2 is:')
 print(result)  # expect 6577 for provided input
-
-
-
-

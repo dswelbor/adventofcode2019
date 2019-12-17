@@ -1,4 +1,4 @@
-from day_three.wire_runner import WireTable, WireGrid
+from day_three.wire_runner import WireTable
 
 
 """This module provides the run functionality for day three aoc2019 solution"""
@@ -36,8 +36,3 @@ man_step_dist = wire_table.find_min_steps()
 print('Part Two - Combined minimum number of steps to an intersection:')
 print('calculating...')
 print(man_step_dist)
-
-
-
-
-
