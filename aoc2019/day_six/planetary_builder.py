@@ -1,4 +1,5 @@
-from planetary_composite import CentralMassComposite, SatelliteLeaf
+from aoc2019.day_six.planetary_composite import CentralMassComposite, SatelliteLeaf
+
 
 class PlanetaryBuilder:
     """
@@ -7,7 +8,7 @@ class PlanetaryBuilder:
     """
     def __init__(self):
         self.root = None
-        self.planets = []
+        self.planets = {}
 
     def add_orbit(self, central, satellite):
         """
@@ -15,7 +16,7 @@ class PlanetaryBuilder:
         into a tree later.
         """
         # set new root
-        if satellite == self.root:
+        if self.root is None or satellite == self.root:
             self.root = central
 
         # add the satellite if it doesn't already exist
@@ -25,7 +26,7 @@ class PlanetaryBuilder:
         try:
             # self.planets[central] = list(set(self.planets[central].append(satellite)))
             self.planets[central].append(satellite)
-        except AttributeError:
+        except KeyError:
             self.planets[central] = []
             self.planets[central].append(satellite)
 
@@ -35,7 +36,7 @@ class PlanetaryBuilder:
         relations.
         """
         # Create composite and leaf components
-        components = []
+        components = {}
         for key in self.planets:
             # leaf
             if len(self.planets[key]) is 0:  # 'is' might be a buggy section

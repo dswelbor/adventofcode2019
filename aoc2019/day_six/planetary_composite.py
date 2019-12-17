@@ -3,6 +3,13 @@ class SatelliteLeaf:
     def __init__(self, name):
         self.name = name
 
+    def count(self):
+        """
+        Simple utility method to return the number of nodes in this leaf,
+         which is always 1.
+        """
+        return 1
+
     def count_orbits(self):
         """
         This method returns the number of orbiting entities - 1 as it
@@ -21,6 +28,16 @@ class CentralMassComposite:
     def __init__(self, name):
         self.name = name
         self.orbit = []  # collection of orbiting entities
+
+    def count(self):
+        """
+        Simple utility method to recursively return the number of nodes in
+        this composite sub tree.
+        """
+        count = 1
+        for child in self.orbit:
+            count += child.count()
+        return count
 
     def count_orbits(self):
         """

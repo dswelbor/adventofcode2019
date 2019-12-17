@@ -5,6 +5,8 @@ from aoc2019.shared import int_code
 from aoc2019.day_three import wire_runner
 from aoc2019.day_three.wire_runner import Empty, End, Wire, WireGrid, WireTable
 from aoc2019.day_four.container_cracker import valid, valid_refined
+from aoc2019.day_six.planetary_builder import PlanetaryBuilder
+from aoc2019.day_six.planetary_composite import CentralMassComposite, SatelliteLeaf
 
 """Tests for `aoc2019` package."""
 
@@ -379,3 +381,41 @@ def test_day_five_run_input():
     test_obj3 = int_code.IntCode(test_list.copy())
     test_obj3.run(9)
     assert 1001 == test_obj3.output_codes[-1]
+
+
+def test_day_six_builder():
+    """
+    Test case: ensure builder creates a tree with expected number of nodes.
+    """
+    # COM)B
+    # B)C
+    # C)D
+    # D)E
+    # E)F
+    # B)G
+    # G)H
+    # D)I
+    # E)J
+    # J)K
+    # K)L
+    test_map = [('COM', 'B'),
+                ('B', 'C'),
+                ('C', 'D'),
+                ('D', 'E'),
+                ('E', 'F'),
+                ('B', 'G'),
+                ('G', 'H'),
+                ('D', 'I'),
+                ('E', 'J'),
+                ('J', 'K'),
+                ('K', 'L')]
+    builder = PlanetaryBuilder()
+    # iterate through test input - add orbit relations
+    for pair in test_map:
+        builder.add_orbit(pair[0], pair[1])
+
+    # build it
+    test_planetary_tree = builder.build()
+
+    assert 12 == test_planetary_tree.count()
+
