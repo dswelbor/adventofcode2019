@@ -1,3 +1,5 @@
+from planetary_composite import CentralMassComposite, SatelliteLeaf
+
 class PlanetaryBuilder:
     """
     This class is an implementation of builder - a creational design pattern. It
@@ -16,6 +18,10 @@ class PlanetaryBuilder:
         if satellite == self.root:
             self.root = central
 
+        # add the satellite if it doesn't already exist
+        if satellite not in self.planets:
+            self.planets[satellite] = []  # init new pair with empty value list
+
         try:
             # self.planets[central] = list(set(self.planets[central].append(satellite)))
             self.planets[central].append(satellite)
@@ -28,4 +34,24 @@ class PlanetaryBuilder:
         This method builds a tree of PlanetaryComponents from the added orbit
         relations.
         """
-        pass
+        # Create composite and leaf components
+        components = []
+        for key in self.planets:
+            # leaf
+            if len(self.planets[key]) is 0:  # 'is' might be a buggy section
+                components[key] = SatelliteLeaf(key)
+            # composite
+            else:
+                components[key] = CentralMassComposite(key)
+
+        # add children to composites
+        for key in self.planets:
+            # iterate through each satellite
+            for satellite_name in self.planets[key]:
+                # add relation to central mass
+                central_mass = components[key]
+                satellite = components[satellite_name]
+                # components[key].orbit.append()
+                central_mass.orbit.append(satellite)
+
+        return components[self.root]
