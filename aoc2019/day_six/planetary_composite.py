@@ -17,7 +17,8 @@ class SatelliteLeaf:
          """
         return level
 
-    pass
+    def __str__(self):
+        return 'leaf: {}'.format(self.name)
 
 
 class CentralMassComposite:
@@ -49,4 +50,7 @@ class CentralMassComposite:
             count += satellite.count_orbits(level + 1)
 
         return level + count
+
+    def __str__(self):
+        return self.name
 
