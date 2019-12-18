@@ -398,6 +398,7 @@ def test_day_six_builder():
     # E)J
     # J)K
     # K)L
+    # first element is central mass, second is orbiting satellite
     test_map = [('COM', 'B'),
                 ('B', 'C'),
                 ('C', 'D'),
@@ -413,9 +414,32 @@ def test_day_six_builder():
     # iterate through test input - add orbit relations
     for pair in test_map:
         builder.add_orbit(pair[0], pair[1])
-
     # build it
     test_planetary_tree = builder.build()
-
+    # assert the new tree has 12 nodes
     assert 12 == test_planetary_tree.count()
 
+def test_day_six_count_orbits():
+    """
+    Test case: ensure builder creates a tree with expected number of nodes.
+    """
+    # first element is central mass, second is orbiting satellite
+    test_map = [('COM', 'B'),
+                ('B', 'C'),
+                ('C', 'D'),
+                ('D', 'E'),
+                ('E', 'F'),
+                ('B', 'G'),
+                ('G', 'H'),
+                ('D', 'I'),
+                ('E', 'J'),
+                ('J', 'K'),
+                ('K', 'L')]
+    builder = PlanetaryBuilder()
+    # iterate through test input - add orbit relations
+    for pair in test_map:
+        builder.add_orbit(pair[0], pair[1])
+    # build it
+    test_planetary_tree = builder.build()
+    # Count all direct and indirect orbits
+    assert 42 == test_planetary_tree.count_orbits(0)
