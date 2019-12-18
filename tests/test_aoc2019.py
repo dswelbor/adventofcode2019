@@ -417,7 +417,8 @@ def test_day_six_builder():
     # build it
     test_planetary_tree = builder.build()
     # assert the new tree has 12 nodes
-    assert 12 == test_planetary_tree.count()
+    assert 12 == test_planetary_tree[0].count()
+
 
 def test_day_six_count_orbits():
     """
@@ -442,4 +443,4 @@ def test_day_six_count_orbits():
     # build it
     test_planetary_tree = builder.build()
     # Count all direct and indirect orbits
-    assert 42 == test_planetary_tree.count_orbits(0)
+    assert 42 == test_planetary_tree[0].count_orbits(0)

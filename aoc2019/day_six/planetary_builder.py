@@ -7,18 +7,22 @@ class PlanetaryBuilder:
     builds a tree of PlanetaryComponents.
     """
     def __init__(self):
-        self.root = None
+        self.roots = []
         self.planets = {}
-        self.rev_planets = {}
+        # self.rev_planets = {}
 
     def add_orbit(self, central, satellite):
         """
         This method populates a dictionary of orbiting entities to be built
         into a tree later.
         """
-        # set new root
-        if self.root is None or satellite == self.root:
-            self.root = central
+        # add new root
+        if central not in self.roots:
+            self.roots.append(central)
+
+        # remove non-root from list
+        if satellite in self.roots:
+            self.roots.remove(satellite)
 
         # add the satellite if it doesn't already exist
         if satellite not in self.planets:
@@ -56,4 +60,8 @@ class PlanetaryBuilder:
                 # components[key].orbit.append()
                 central_mass.orbit.append(satellite)
 
-        return components[self.root]
+        # populate list of root components
+        root_components = []
+        for root in self.roots:
+            root_components.append(components[root])
+        return root_components
