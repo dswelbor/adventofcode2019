@@ -9,6 +9,7 @@ class PlanetaryBuilder:
     def __init__(self):
         self.root = None
         self.planets = {}
+        self.rev_planets = {}
 
     def add_orbit(self, central, satellite):
         """
@@ -39,7 +40,7 @@ class PlanetaryBuilder:
         components = {}
         for key in self.planets:
             # leaf
-            if len(self.planets[key]) is 0:  # 'is' might be a buggy section
+            if len(self.planets[key]) == 0:  # 'is' might be a buggy section
                 components[key] = SatelliteLeaf(key)
             # composite
             else:
