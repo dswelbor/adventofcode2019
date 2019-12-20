@@ -1,10 +1,11 @@
-from aoc2019.day_six.planetary_composite import CentralMassComposite, SatelliteLeaf
+from aoc2019.day_six.planetary_composite import CentralMassComposite, \
+    SatelliteLeaf
 
 
 class PlanetaryBuilder:
     """
-    This class is an implementation of builder - a creational design pattern. It
-    builds a tree of PlanetaryComponents.
+    This class is an implementation of builder - a creational design pattern.
+    It builds a tree of PlanetaryComponents.
     """
     def __init__(self):
         self.roots = []
@@ -26,10 +27,10 @@ class PlanetaryBuilder:
 
         # add the satellite if it doesn't already exist
         if satellite not in self.planets:
-            self.planets[satellite] = []  # init new pair with empty value list
+            # init new key-value pair with empty value list
+            self.planets[satellite] = []
 
         try:
-            # self.planets[central] = list(set(self.planets[central].append(satellite)))
             self.planets[central].append(satellite)
         except KeyError:
             self.planets[central] = []

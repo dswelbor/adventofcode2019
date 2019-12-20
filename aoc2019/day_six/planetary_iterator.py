@@ -44,4 +44,3 @@ class BFSPlanetaryIterator:
             # No more elements
             except IndexError:
                 raise StopIteration
-

@@ -1,5 +1,6 @@
 """
-This module decouples the logic for the day 2 aoc2019 into utility functions and entities
+This module decouples the logic for the day2 and day5 aoc2019 into utility
+functions and entities.
 """
 
 
@@ -21,7 +22,9 @@ def multiply(args):
 
 
 def stop():
-    """Simple utility function that raises Done exception to signal completion"""
+    """
+    Simple utility function that raises Done exception to signal completion.
+    """
     raise Done
     pass
 
@@ -104,7 +107,8 @@ class IntCode:
 
     def visit_next(self):
         """Visits the next block of int codes"""
-        code = self.get_instruction()  # save instruction code for current iteration
+        # save instruction code for current iteration
+        code = self.get_instruction()
         try:
             self.visit()
         except Done:
@@ -123,25 +127,27 @@ class IntCode:
 
     def input_opp(self):
         """
-        Instruction # 3: This operation takes an index and saves the "input" at
-        the index parameter
+        Instruction # 3: This operation takes an index and saves the "input"
+        at the index parameter
         """
         param = self.list[self.index + 1]
         self.list[param] = self.init_input
 
     def output_opp(self):
         """
-        Instruction # 4: This operations prints either the passed value or the value at the
-        passed index. Instruction 4, 50 indicates instruction # 4 (this instruction) and 0
-        for the parameter mode - ie position mode. It outputs the value stored at index 50.
+        Instruction # 4: This operations prints either the passed value or
+        the value at the passed index. Instruction 4, 50 indicates
+        instruction # 4 (this instruction) and 0 for the parameter mode - ie
+        position mode. It outputs the value stored at index 50.
         """
-        # "output" the output code with the get_value result - parameter offset of 1
+        # "output" the output code with the get_value result
+        # parameter offset of 1
         self.output_codes.append(self.get_value(1))
 
     def add_opp(self):
         """
-        Instruction # 1: This operation adds two numbers - passing the appropriate
-        terms to the add function.
+        Instruction # 1: This operation adds two numbers - passing the
+        appropriate terms to the add function.
         """
         target = self.list[self.index + 3]
         terms = [self.get_value(1), self.get_value(2)]
@@ -149,27 +155,28 @@ class IntCode:
 
     def multiply_opp(self):
         """
-        Instruction # 2: This operation multiples two numbers - passing the appropriate terms
-        to the multiply function
+        Instruction # 2: This operation multiples two numbers - passing the
+        appropriate terms to the multiply function.
         """
 
         target = self.list[self.index + 3]
         terms = [self.get_value(1), self.get_value(2)]
-        # terms[1] = self.list[self.get_value(2)]
         self.list[target] = multiply(terms)
 
     def jump_true_opp(self):
         """
-        Instruction # 5: if the first parameter is non-zero, it sets the instruction pointer
-        to the value from the second parameter. Otherwise, it does nothing.
+        Instruction # 5: if the first parameter is non-zero, it sets the
+        instruction pointer to the value from the second parameter.
+        Otherwise, it does nothing.
         """
         param_one = self.get_value(1)
         param_two = self.get_value(2)
 
         # first param is non-zero - jump to instruction at 2nd param
-        if param_one is not 0:
+        if not param_one == 0:
             self.index = param_two
-            self.increment_value[self.JUMP_TRUE_CODE] = 0  # index ptr moved already
+            # index ptr moved already
+            self.increment_value[self.JUMP_TRUE_CODE] = 0
 
         # first param is zero (false) - do nothing
         else:
@@ -179,16 +186,18 @@ class IntCode:
 
     def jump_false_opp(self):
         """
-        Instruction # 6: if the first parameter is zero, it sets the instruction
-        pointer to the value from the second parameter. Otherwise, it does nothing.
+        Instruction # 6: if the first parameter is zero, it sets the
+        instruction pointer to the value from the second parameter.
+        Otherwise, it does nothing.
         """
         param_one = self.get_value(1)
         param_two = self.get_value(2)
 
         # first param is zero (false) - jump to instruction at 2nd param
-        if param_one is 0:
+        if param_one == 0:
             self.index = param_two
-            self.increment_value[self.JUMP_FALSE_CODE] = 0  # index ptr moved already
+            # index ptr moved already
+            self.increment_value[self.JUMP_FALSE_CODE] = 0
 
         # first param is non-zero (true) - do nothing
         else:
@@ -198,9 +207,9 @@ class IntCode:
 
     def less_opp(self):
         """
-        Instruction #7: if the first parameter is less than the second parameter,
-        it stores 1 in the position given by the third parameter. Otherwise, it
-        stores 0.
+        Instruction #7: if the first parameter is less than the second
+        parameter, it stores 1 in the position given by the third
+        parameter. Otherwise, it stores 0.
         """
         # get three params
         param_one = self.get_value(1)
@@ -216,9 +225,9 @@ class IntCode:
 
     def equals_opp(self):
         """
-        Instruction #8: if the first parameter is equal to the second parameter,
-        it stores 1 in the position given by the third parameter. Otherwise, it
-        stores 0.
+        Instruction #8: if the first parameter is equal to the second
+        parameter, it stores 1 in the position given by the third
+        parameter. Otherwise, it stores 0.
         """
         # get three params
         param_one = self.get_value(1)
