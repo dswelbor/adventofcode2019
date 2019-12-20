@@ -1,5 +1,5 @@
 from day_six.planetary_builder import PlanetaryBuilder
-from day_six.planetary_composite import CentralMassComposite, SatelliteLeaf
+from aoc2019.day_six.planetary_composite import CentralMassComposite, get_min_distance, PlanetaryTree, SatelliteLeaf
 
 """
 Runner script for Day 2 Advent of Code challenge - relies on
@@ -29,9 +29,14 @@ print('Part one - calculate total sum of all direct and indirect orbits: ')
 com = None
 for root in planetary_trees:
     if root.name == 'COM':
-        com = root
+        com = PlanetaryTree(root)
         break
-count_orbits = com.count_orbits(0) # expect 308790
+
+count_orbits = com.count_all_orbits()  # expect 308790
 print(count_orbits)
 
 # Part two
+print('Calculate the distance from Center of Mass to Santa:')
+print('calculating...')
+dist = get_min_distance(com, 'YOU')
+print(dist)

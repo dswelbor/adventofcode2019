@@ -58,7 +58,7 @@ class PlanetaryBuilder:
                 central_mass = components[key]
                 satellite = components[satellite_name]
                 # components[key].orbit.append()
-                central_mass.orbit.append(satellite)
+                central_mass.satellites.append(satellite)
 
         # populate list of root components
         root_components = []
