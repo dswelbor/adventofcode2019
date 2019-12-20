@@ -5,6 +5,9 @@ from aoc2019.shared import int_code
 from aoc2019.day_three import wire_runner
 from aoc2019.day_three.wire_runner import Empty, End, Wire, WireGrid, WireTable
 from aoc2019.day_four.container_cracker import valid, valid_refined
+from aoc2019.day_six.planetary_builder import PlanetaryBuilder
+from aoc2019.day_six.planetary_composite import CentralMassComposite, \
+    get_min_dist, PlanetaryTree, SatelliteLeaf
 
 """Tests for `aoc2019` package."""
 
@@ -379,3 +382,121 @@ def test_day_five_run_input():
     test_obj3 = int_code.IntCode(test_list.copy())
     test_obj3.run(9)
     assert 1001 == test_obj3.output_codes[-1]
+
+
+def test_day_six_builder():
+    """
+    Test case: ensure builder creates a tree with expected number of nodes.
+    """
+    # COM)B
+    # B)C
+    # C)D
+    # D)E
+    # E)F
+    # B)G
+    # G)H
+    # D)I
+    # E)J
+    # J)K
+    # K)L
+    # first element is central mass, second is orbiting satellite
+    test_map = [('COM', 'B'),
+                ('B', 'C'),
+                ('C', 'D'),
+                ('D', 'E'),
+                ('E', 'F'),
+                ('B', 'G'),
+                ('G', 'H'),
+                ('D', 'I'),
+                ('E', 'J'),
+                ('J', 'K'),
+                ('K', 'L')]
+    builder = PlanetaryBuilder()
+    # iterate through test input - add orbit relations
+    for pair in test_map:
+        builder.add_orbit(pair[0], pair[1])
+    # build it
+    test_planetary_tree = builder.build()
+    # assert the new tree has 12 nodes
+    assert 12 == test_planetary_tree[0].count()
+
+
+def test_day_six_count_orbits():
+    """
+    Test case: ensure builder creates a tree with expected number of nodes.
+    """
+    # first element is central mass, second is orbiting satellite
+    test_map = [('COM', 'B'),
+                ('B', 'C'),
+                ('C', 'D'),
+                ('D', 'E'),
+                ('E', 'F'),
+                ('B', 'G'),
+                ('G', 'H'),
+                ('D', 'I'),
+                ('E', 'J'),
+                ('J', 'K'),
+                ('K', 'L')]
+    builder = PlanetaryBuilder()
+    # iterate through test input - add orbit relations
+    for pair in test_map:
+        builder.add_orbit(pair[0], pair[1])
+    # build it
+    test_planetary_tree = builder.build()
+    # Count all direct and indirect orbits
+    assert 42 == test_planetary_tree[0].count_orbits(0)
+
+
+def test_day_six_contains():
+    """Test case: assert that contains method behaves as expected"""
+    # first element is central mass, second is orbiting satellite
+    test_map = [('COM', 'B'),
+                ('B', 'C'),
+                ('C', 'D'),
+                ('D', 'E'),
+                ('E', 'F'),
+                ('B', 'G'),
+                ('G', 'H'),
+                ('D', 'I'),
+                ('E', 'J'),
+                ('J', 'K'),
+                ('K', 'L')]
+    builder = PlanetaryBuilder()
+    # iterate through test input - add orbit relations
+    for pair in test_map:
+        builder.add_orbit(pair[0], pair[1])
+    # build it
+    test_root = builder.build()[0]
+    test_tree = PlanetaryTree(test_root)
+    assert test_tree.contains('K')
+    assert test_tree.contains('COM')
+    assert not test_tree.contains('Z')
+
+
+def test_day_six_get_min_dist():
+    """
+    Test case: assert that the get_min_dist function returns the expected
+    number of traversals between two named components.
+    """
+    # first element is central mass, second is orbiting satellite
+    test_map = [('COM', 'B'),
+                ('B', 'C'),
+                ('C', 'D'),
+                ('D', 'E'),
+                ('E', 'F'),
+                ('B', 'G'),
+                ('G', 'H'),
+                ('D', 'I'),
+                ('E', 'J'),
+                ('J', 'K'),
+                ('K', 'L'),
+                ('K', 'YOU'),
+                ('I', 'SAN')]
+    builder = PlanetaryBuilder()
+    # iterate through test input - add orbit relations
+    for pair in test_map:
+        builder.add_orbit(pair[0], pair[1])
+    # build it
+    test_root = builder.build()[0]
+    test_tree = PlanetaryTree(test_root)
+    assert 4 == get_min_dist(test_tree, 'YOU', 'SAN')

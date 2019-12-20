@@ -48,8 +48,10 @@ class CrackIt:
         """Simple initialization method for object attributes"""
         self.range_start = start
         self.range_end = end
-        self.valid_candidates = []  # a list of valid password candidates
-        self.valid_candidates_refined = []  # a list of refined valid password candidates
+        # a list of valid password candidates
+        self.valid_candidates = []
+        # a list of refined valid password candidates
+        self.valid_candidates_refined = []
 
     def get_valid_permutations(self):
         """Utility method to generate list of valid password candidates"""
@@ -62,11 +64,16 @@ class CrackIt:
         return self.valid_candidates
 
     def count_valid_permutations(self):
-        """Simple utility method to return the number of valid possibilities"""
+        """
+        Simple utility method to return the number of valid possibilities.
+        """
         return len(self.get_valid_permutations())
 
     def get_valid_permutations_refined(self):
-        """Utility method to generate a sub list of refined valid password candidates"""
+        """
+        Utility method to generate a sub list of refined valid password
+        candidates.
+        """
         for permutation in self.valid_candidates:
             if valid_refined(permutation):
                 self.valid_candidates_refined.append(permutation)
@@ -75,5 +82,8 @@ class CrackIt:
         return self.valid_candidates_refined
 
     def count_valid_permutations_refined(self):
-        """Utility method to count the number of refined valid password candidates"""
+        """
+        Utility method to count the number of refined valid password
+        candidates.
+        """
         return len(self.get_valid_permutations_refined())

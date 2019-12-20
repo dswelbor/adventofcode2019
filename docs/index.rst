@@ -1,5 +1,5 @@
 Welcome to adventofcode2019's documentation!
-======================================
+============================================
 
 .. toctree::
    :maxdepth: 2

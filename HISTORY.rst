@@ -24,7 +24,17 @@ History
 
 * Day Three advent solution.
 
-0.1.3 (2019-12-14)
+0.1.4 (2019-12-14)
 ------------------
 
 * Day Four advent solution.
+
+0.1.5 (2019-12-15)
+------------------
+
+* Day Five advent solution.
+
+0.1.6 (2019-12-20)
+------------------
+
+* Day Six advent solution.

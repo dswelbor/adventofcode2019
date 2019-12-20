@@ -42,9 +42,14 @@ Features
     list of permutations based on additional criteria, and return a count of valid permutation
     candidates for both sets of requirements.
 
-* Day Four solution
+* Day Five solution
     re-using the IntCode class from Day Two. IntCode was refactored to use more dynamic dispatch for handling
     int codes and opp code parameters, adding new functionality while supporting prior prior requirements.
+
+* Day Six solution
+    using Composite and Builder design patterns to construct a tree. Recursively caounts all direct and
+    indirect edge relations.  Additionally implements an Iterator using level order traversal to handle edge
+    distance calculations.
 
 Credits
 -------

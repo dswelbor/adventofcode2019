@@ -1,6 +1,6 @@
-# import day_one
-#import day_one_util
 from day_one import day_one_util
+
+"""This module provides the run functionality for day one aoc2019 solution"""
 
 # part one
 print('Part One: Expected fuel requirements: ')
