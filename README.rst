@@ -47,8 +47,8 @@ Features
     int codes and opp code parameters, adding new functionality while supporting prior prior requirements.
 
 * Day Six solution
-    using Composite and Builder design patterns to construct a tree. Recursively calculated all direct and
-    indirect edge relations.  Additionally implemented an Iterator using level order traversal to handle edge
+    using Composite and Builder design patterns to construct a tree. Recursively caounts all direct and
+    indirect edge relations.  Additionally implements an Iterator using level order traversal to handle edge
     distance calculations.
 
 Credits
