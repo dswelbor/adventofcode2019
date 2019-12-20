@@ -78,6 +78,19 @@ class PlanetaryTree:
         """Basic initialization method."""
         self.root = root
 
+    def contains(self, key):
+        """
+        Utility method to return true if a component with passed name is
+        present in tree
+        """
+        # Iterate through all components
+        for component in self:
+            if component[0].name == key:
+                return True  # found component
+
+        # No matching components found
+        return False
+
     def count_all_orbits(self):
         """
         Utility method that returns the sum of all direct and indirect orbits.
