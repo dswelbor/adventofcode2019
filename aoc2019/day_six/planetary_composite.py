@@ -25,9 +25,9 @@ def get_min_dist(tree, name_one, name_two):
     # Iterate through children with depth = 1
     try:
         while component[1] < 2:
-            # component = tree_iter.__next__()
             try:
-                return get_min_dist(PlanetaryTree(component[0]), name_one, name_two)
+                sub_tree = PlanetaryTree(component[0])
+                return get_min_dist(sub_tree, name_one, name_two)
             except ValueError:
                 # sub tree does not contain both components - do nothing
                 pass

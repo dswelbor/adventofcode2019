@@ -168,15 +168,20 @@ class WireGrid:
                     self.grid[self.current_pos['y']][self.current_pos['x']
                                                      + offset]
                 # dynamically dispatch action
-                self.grid[self.current_pos['y']][self.current_pos['x'] + offset] = \
-                    self.actions[current.__str__()]()
+                current_y = self.current_pos['y']
+                offset_x = self.current_pos['x'] + offset
+                self.grid[current_y][offset_x] \
+                    = self.actions[current.__str__()]()
             except IndexError:
                 pass  # do nothing
         # Update "current" coords
         self.current_pos['x'] += dist
 
     def left(self, dist):
-        """Helper method to trace "left" a passed number of cells from current position"""
+        """
+        Helper method to trace "left" a passed number of cells from current
+        position.
+        """
         # iterate up
         for offset in range(1, dist + 1):
             try:
@@ -184,8 +189,10 @@ class WireGrid:
                     self.grid[self.current_pos['y']][self.current_pos['x']
                                                      - offset]
                 # dynamically dispatch action
-                self.grid[self.current_pos['y']][self.current_pos['x'] - offset] = \
-                    self.actions[current.__str__()]()
+                current_y = self.current_pos['y']
+                offset_x = self.current_pos['x'] - offset
+                self.grid[current_y][offset_x] \
+                    = self.actions[current.__str__()]()
             except IndexError:
                 pass  # do nothing
         # Update "current" coords
@@ -219,7 +226,7 @@ class Wire:
         self.taken = True
 
     def __str__(self):
-       return '.'
+        return '.'
 
 
 class Cross:
@@ -327,7 +334,8 @@ class WireTable:
             for opp in trace:
                 self.count_steps_instr[opp[0]](int(opp[1:]))
             # Append
-            self.list_keyed_intersect_steps.append(self.current_intersect_steps)
+            self.list_keyed_intersect_steps\
+                .append(self.current_intersect_steps)
 
         # calculate sum of steps to a given intersection
         min_steps = sys.maxsize
@@ -339,7 +347,10 @@ class WireTable:
         return min_steps
 
     def up(self, dist):
-        """Helper method to trace "up" a passed number of cells from current position"""
+        """
+        Helper method to trace "up" a passed number of cells from current
+        position.
+        """
         # iterate up
         for offset in range(1, dist + 1):
             self.current_trace[self.current_x].append(self.current_y + offset)
@@ -347,7 +358,10 @@ class WireTable:
         self.current_y += dist
 
     def down(self, dist):
-        """Helper method to trace "down" a passed number of cells from current position"""
+        """
+        Helper method to trace "down" a passed number of cells from current
+        position.
+        """
         # iterate down
         for offset in range(1, dist + 1):
             self.current_trace[self.current_x].append(self.current_y - offset)
@@ -386,49 +400,57 @@ class WireTable:
             self.current_steps += 1  # increment step counter
             # currently at
             if (self.current_x, self.current_y + offset) in self.intersections:
-                self.current_intersect_steps[(self.current_x, self.current_y + offset)] = self.current_steps
+                self.current_intersect_steps[(self.current_x,
+                                              self.current_y + offset)]\
+                    = self.current_steps
 
         # Update "current" coords
         self.current_y += dist
 
     def down_count(self, dist):
         """
-        Helper method to trace "down" a passed number of cells from current position
-        and count steps to and intersection.
+        Helper method to trace "down" a passed number of cells from current
+        position and count steps to and intersection.
         """
         # iterate down
         for offset in range(1, dist + 1):
             self.current_steps += 1  # increment step counter
             # currently at
             if (self.current_x, self.current_y - offset) in self.intersections:
-                self.current_intersect_steps[(self.current_x, self.current_y - offset)] = self.current_steps
+                self.current_intersect_steps[(self.current_x,
+                                              self.current_y - offset)] \
+                    = self.current_steps
         # Update "current" coords
         self.current_y -= dist
 
     def right_count(self, dist):
         """
-        Helper method to trace "right" a passed number of cells from current position
-        and count steps to and intersection.
+        Helper method to trace "right" a passed number of cells from current
+        position and count steps to and intersection.
         """
         # iterate right
         for offset in range(1, dist + 1):
             self.current_steps += 1  # increment step counter
             # currently at
             if (self.current_x + offset, self.current_y) in self.intersections:
-                self.current_intersect_steps[(self.current_x + offset, self.current_y)] = self.current_steps
+                self.current_intersect_steps[(self.current_x + offset,
+                                              self.current_y)] \
+                    = self.current_steps
         # Update "current" coords
         self.current_x += dist
 
     def left_count(self, dist):
         """
-        Helper method to trace "left" a passed number of cells from current position
-        and count steps to and intersection.
+        Helper method to trace "left" a passed number of cells from current
+        position and count steps to and intersection.
         """
         # iterate left
         for offset in range(1, dist + 1):
             self.current_steps += 1  # increment step counter
             # currently at
             if (self.current_x - offset, self.current_y) in self.intersections:
-                self.current_intersect_steps[(self.current_x - offset, self.current_y)] = self.current_steps
+                self.current_intersect_steps[(self.current_x - offset,
+                                              self.current_y)] \
+                    = self.current_steps
         # Update "current" coords
         self.current_x -= dist

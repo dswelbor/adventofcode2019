@@ -1,10 +1,14 @@
 import math
 
-"""This module provides the utility functions for the day 1 aoc2019 solution"""
+"""
+This module provides the utility functions for the day 1 aoc2019 solution.
+"""
 
 
 def calc_fuel_reqs(filename):
-    """This function opens a file and sums the fuel requirements from the file"""
+    """
+    This function opens a file and sums the fuel requirements from the file.
+    """
     input_file = open(filename, "r")
 
     # initialize sum to 0
@@ -39,7 +43,10 @@ def calc_module_fuel(mass):
 
 
 def calc_total_fuel_reqs(filename):
-    """This function iterates through all modules and find total fuel requirements"""
+    """
+    This function iterates through all modules and find total fuel
+    requirements.
+    """
     input_file = open(filename, "r")
     cumulative_total = 0  # initialize sum as 0
     # iterate through list

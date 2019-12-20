@@ -1,6 +1,5 @@
 from day_six.planetary_builder import PlanetaryBuilder
-from aoc2019.day_six.planetary_composite import CentralMassComposite, \
-    get_min_dist, PlanetaryTree, SatelliteLeaf
+from aoc2019.day_six.planetary_composite import get_min_dist, PlanetaryTree
 
 """
 Runner script for Day 2 Advent of Code challenge - relies on
@@ -25,8 +24,8 @@ planetary_trees = builder.build()  # build the tree
 
 # Part One - calculate direct and indirect orbits
 print('Part one - calculate total sum of all direct and indirect orbits: ')
-# iteratively calculate sum of all direct and indirect orbits for multiple trees
-# get COM root
+# iteratively calculate sum of all direct and indirect orbits
+# get Center Of Mass root
 com = None
 for root in planetary_trees:
     if root.name == 'COM':
