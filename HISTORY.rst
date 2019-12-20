@@ -33,3 +33,8 @@ History
 ------------------
 
 * Day Five advent solution.
+
+0.1.6 (2019-12-20)
+------------------
+
+* Day Six advent solution.

@@ -27,6 +27,7 @@ def get_min_dist(tree, name_one, name_two):
         while component[1] < 2:
             try:
                 sub_tree = PlanetaryTree(component[0])
+                # child sub-trees will have smaller edge distances
                 return get_min_dist(sub_tree, name_one, name_two)
             except ValueError:
                 # sub tree does not contain both components - do nothing
@@ -38,7 +39,7 @@ def get_min_dist(tree, name_one, name_two):
         # no more elements - do nothing
         pass
 
-    # children sub-trees do not share both named components
+    # passed tree has lowest level shared root for named components
     return get_depth(tree, name_one) + get_depth(tree, name_two) - 2
 
 
