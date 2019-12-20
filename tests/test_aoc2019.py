@@ -7,7 +7,7 @@ from aoc2019.day_three.wire_runner import Empty, End, Wire, WireGrid, WireTable
 from aoc2019.day_four.container_cracker import valid, valid_refined
 from aoc2019.day_six.planetary_builder import PlanetaryBuilder
 from aoc2019.day_six.planetary_composite import CentralMassComposite, \
-    PlanetaryTree, SatelliteLeaf
+    get_min_dist, PlanetaryTree, SatelliteLeaf
 
 """Tests for `aoc2019` package."""
 
@@ -471,3 +471,32 @@ def test_day_six_contains():
     assert test_tree.contains('K')
     assert test_tree.contains('COM')
     assert not test_tree.contains('Z')
+
+
+def test_day_six_get_min_dist():
+    """
+    Test case: assert that the get_min_dist function returns the expected
+    number of traversals between two named components.
+    """
+    # first element is central mass, second is orbiting satellite
+    test_map = [('COM', 'B'),
+                ('B', 'C'),
+                ('C', 'D'),
+                ('D', 'E'),
+                ('E', 'F'),
+                ('B', 'G'),
+                ('G', 'H'),
+                ('D', 'I'),
+                ('E', 'J'),
+                ('J', 'K'),
+                ('K', 'L'),
+                ('K', 'YOU'),
+                ('I', 'SAN')]
+    builder = PlanetaryBuilder()
+    # iterate through test input - add orbit relations
+    for pair in test_map:
+        builder.add_orbit(pair[0], pair[1])
+    # build it
+    test_root = builder.build()[0]
+    test_tree = PlanetaryTree(test_root)
+    assert 4 == get_min_dist(test_tree, 'YOU', 'SAN')

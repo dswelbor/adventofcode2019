@@ -1,5 +1,6 @@
 from day_six.planetary_builder import PlanetaryBuilder
-from aoc2019.day_six.planetary_composite import CentralMassComposite, get_min_distance, PlanetaryTree, SatelliteLeaf
+from aoc2019.day_six.planetary_composite import CentralMassComposite, \
+    get_min_dist, PlanetaryTree, SatelliteLeaf
 
 """
 Runner script for Day 2 Advent of Code challenge - relies on
@@ -38,5 +39,5 @@ print(count_orbits)
 # Part two
 print('Calculate the distance from Center of Mass to Santa:')
 print('calculating...')
-dist = get_min_distance(com, 'YOU')
+dist = get_min_dist(com, 'YOU', 'SAN')
 print(dist)

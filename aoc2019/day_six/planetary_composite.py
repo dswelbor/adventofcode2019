@@ -1,7 +1,7 @@
 from aoc2019.day_six.planetary_iterator import BFSPlanetaryIterator
 
 
-def get_min_distance(tree, name):
+def get_depth(tree, name):
     """
     Simple utility method that iterates through components in a PlanetaryTree.
     It determines the minimum distance from root to named node.
@@ -9,6 +9,37 @@ def get_min_distance(tree, name):
     for node in tree:
         if node[0].name == name:
             return node[1]  # "depth" it was found at
+
+    # Element not found
+    raise ValueError
+
+
+def get_min_dist(tree, name_one, name_two):
+    """
+    Utility function that returns the minimum distance between components with
+    passed names.
+    """
+    tree_iter = iter(tree)
+    tree_iter.__next__()  # consume level 0 component
+    component = tree_iter.__next__()  # get first level 1 component
+    # Iterate through children with depth = 1
+    try:
+        while component[1] < 2:
+            # component = tree_iter.__next__()
+            try:
+                return get_min_dist(PlanetaryTree(component[0]), name_one, name_two)
+            except ValueError:
+                # sub tree does not contain both components - do nothing
+                pass
+
+            # iterate to next component
+            component = tree_iter.__next__()
+    except StopIteration:
+        # no more elements - do nothing
+        pass
+
+    # children sub-trees do not share both named components
+    return get_depth(tree, name_one) + get_depth(tree, name_two) - 2
 
 
 class SatelliteLeaf:
