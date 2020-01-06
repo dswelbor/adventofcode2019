@@ -3,8 +3,8 @@ Advent of Code2019
 ==================
 
 
-.. image:: https://img.shields.io/travis/dswelbor/advent2019.svg
-        :target: https://travis-ci.org/dswelbor/advent2019
+.. image:: https://travis-ci.com/dswelbor/advent2019.svg
+        :target: https://travis-ci.com/dswelbor/advent2019
 
 Solutions to AdventofCode2019 challenges implemented in python.
 Advent of Code: http://adventofcode.com/
