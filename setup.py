@@ -38,7 +38,7 @@ setup(
     include_package_data=True,
     keywords='aoc2019',
     name='aoc2019',
-    packages=find_packages(include=['aoc2019', 'aoc2019.*']),
+    packages=find_packages(include=['adventofcode, aoc2019', 'aoc2019.*']),
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,

@@ -3,7 +3,7 @@ Advent of Code 2020
 ===================
 
 
-.. image:: https://travis-ci.com/dswelbor/advent2019.svg
+.. image:: https://travis-ci.com/dswelbor/advent2019.svg?branch=master
         :target: https://travis-ci.com/dswelbor/advent2019
 
 Solutions to AdventofCode2020 challenges implemented in python.
