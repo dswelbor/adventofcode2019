@@ -4,9 +4,7 @@ version = "1.2.0"
 description = "This is a compilation of current and past solutions for advent of code utilizing python. It incorporates data structures and algorithms, design patterns, unit testing, continuous integration, and dependency management."
 authors = ["David Welborn <dswelbor@asu.edu>"]
 license = "MIT License"
-packages = [
-    { include = "adventofcode" }
-]
+
 
 [tool.poetry.dependencies]
 python = "^3.6"
