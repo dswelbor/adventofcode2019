@@ -1,4 +1,5 @@
-from day_one import day_one_util
+#!/usr/bin/env python
+from adventofcode.aoc2019.day_one import day_one_util
 
 """This module provides the run functionality for day one aoc2019 solution"""
 

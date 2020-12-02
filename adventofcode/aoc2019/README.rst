@@ -1,48 +1,33 @@
-===================
-Advent of Code 2020
-===================
+==================
+Advent of Code2019
+==================
 
 
 .. image:: https://travis-ci.com/dswelbor/advent2019.svg
         :target: https://travis-ci.com/dswelbor/advent2019
 
-Solutions to AdventofCode2020 challenges implemented in python.
+Legacy Solutions for the AdventofCode2019 challenges implemented in python.
 Advent of Code: http://adventofcode.com/
 
 * Free software: MIT license
 
-Poetry
-------
-This project utilizes poetry for managing python dependencies and freezing
-versions as necessary. Multiple methods of installation are available - including
-using pip (not preferred). More information can be found at:
-https://python-poetry.org/docs/
-
 Instructions
 ------------
-TODO : Update to reflect new solutions
-To run each day solution, from the ``aoc2020`` module, run the
+To run each day solution, from the ``aoc2019`` module, run the
 command:
+
 ``python3 run_day_<DAY_NUMBER>.py``
 
 For example, to run the day one challenge solution, from ``aoc2019``, run:
 
 ``python3 run_day_one.py``
 
-Unit Testing
-------------
-Unit tests for each solution are available in ``tests/``. To run the full
-complement of unit test, use the following command: ``poetry run pytest``
-
-Alternatively, to run tests from a particular testing file, use the filename
-as an argument. For example, to run the test for aoc2020, execute the
-following command: ``poetry run pytest tests/test_aoc2019.py``
 
 Features
 --------
 
 * Day One solution
-    using iterative sums
+    using iterative sums and recursion
 
 * Day Two solution
     using dynamic dispatch to replace conditionals with polymorphism and apply short-circuited brute force logic

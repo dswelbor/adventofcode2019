@@ -1,5 +1,5 @@
 # from aoc2019.day_two.int_code import IntCode, brute_force
-from shared.int_code import IntCode, brute_force
+from adventofcode.aoc2019.shared.int_code import IntCode, brute_force
 
 """
 Runner script for Day 2 Advent of Code challenge - relies on IntCode class

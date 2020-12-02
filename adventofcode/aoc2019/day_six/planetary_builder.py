@@ -1,4 +1,4 @@
-from aoc2019.day_six.planetary_composite import CentralMassComposite, \
+from adventofcode.aoc2019.day_six.planetary_composite import CentralMassComposite, \
     SatelliteLeaf
 
 

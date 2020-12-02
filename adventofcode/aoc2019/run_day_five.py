@@ -1,4 +1,4 @@
-from shared.int_code import IntCode
+from adventofcode.aoc2019.shared.int_code import IntCode
 
 """
 Runner script for Day 5 Advent of Code challenge - relies on refactored

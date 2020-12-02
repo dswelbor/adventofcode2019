@@ -1,4 +1,4 @@
-from day_three.wire_runner import WireTable
+from adventofcode.aoc2019.day_three.wire_runner import WireTable
 
 
 """This module provides the run functionality for day three aoc2019 solution"""

@@ -1,4 +1,4 @@
-from aoc2019.day_six.planetary_iterator import BFSPlanetaryIterator
+from adventofcode.aoc2019.day_six.planetary_iterator import BFSPlanetaryIterator
 
 
 def get_depth(tree, name):

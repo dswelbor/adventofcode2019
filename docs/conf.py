@@ -21,7 +21,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..'))
 
-import aoc2019
+from adventofcode import aoc2019
 
 # -- General configuration ---------------------------------------------
 

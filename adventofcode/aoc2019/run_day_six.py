@@ -1,5 +1,6 @@
-from day_six.planetary_builder import PlanetaryBuilder
-from aoc2019.day_six.planetary_composite import get_min_dist, PlanetaryTree
+from adventofcode.aoc2019.day_six.planetary_builder import PlanetaryBuilder
+from adventofcode.aoc2019.day_six.planetary_composite import get_min_dist, \
+    PlanetaryTree
 
 """
 Runner script for Day 2 Advent of Code challenge - relies on
