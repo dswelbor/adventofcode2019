@@ -42,7 +42,7 @@ setup(
     setup_requires=setup_requirements,
     test_suite='tests',
     tests_require=test_requirements,
-    url='https://github.com/dswelbor/aoc2019',
+    url='https://github.com/dswelbor/adventofcode',
     version='1.2.0',
     zip_safe=False,
 )
